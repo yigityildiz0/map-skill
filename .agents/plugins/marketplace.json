@@ -1,0 +1,20 @@
+{
+  "name": "map-skill",
+  "interface": {
+    "displayName": "Map Skill"
+  },
+  "plugins": [
+    {
+      "name": "map-skill",
+      "source": {
+        "source": "local",
+        "path": "./plugins/map-skill"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Skill — Chicago"
+  short_description: "Official-source route planning for Chicago"
+  default_prompt: "Use $plan-smart-routes-chicago to plan my trip with current official checks and truthful map links."

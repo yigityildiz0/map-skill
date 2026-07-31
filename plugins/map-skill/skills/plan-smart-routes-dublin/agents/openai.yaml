@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Skill — Dublin"
+  short_description: "Official-source route planning for Dublin"
+  default_prompt: "Use $plan-smart-routes-dublin to plan my trip with current official checks and truthful map links."

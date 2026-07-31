@@ -1,0 +1,50 @@
+{
+  "slug": "milan",
+  "name": "Milan",
+  "local_name": "Milano",
+  "country": "Italy",
+  "country_code": "IT",
+  "timezone": "Europe/Rome",
+  "region": "Europe",
+  "coverage": "static_plus_web",
+  "release_skill": "plan-smart-routes-milan",
+  "provider_preferences": [
+    "ATM Milano",
+    "Google Maps",
+    "Apple Maps",
+    "Moovit"
+  ],
+  "sources": [
+    {
+      "id": "milan-gtfs",
+      "kinds": [
+        "static_transit",
+        "schedule"
+      ],
+      "access": "no_key",
+      "format": "GTFS",
+      "url": "https://dati.comune.milano.it/dataset/ds929-orari-del-trasporto-pubblico-locale-nel-comune-di-milano-in-formato-gtfs",
+      "api_url": "https://dati.comune.milano.it/gtfs.zip",
+      "license": "CC BY",
+      "use": "Use the official local schedule baseline.",
+      "limits": "Refresh cadence varies; validate service dates."
+    },
+    {
+      "id": "atm-live-status",
+      "kinds": [
+        "arrivals",
+        "alerts"
+      ],
+      "access": "web_only",
+      "format": "official app/passenger pages",
+      "url": "https://www.atm.it/IT/VIAGGIACONNOI/INFOTRAFFICO/Pagine/default2.aspx",
+      "secondary_url": "https://www.atm.it/it/ViaggiaConNoi/pagamenti_servizi_digitali/Pagine/ATMMobile.aspx",
+      "license": "ATM publisher terms",
+      "use": "Check planned changes and current passenger information.",
+      "limits": "No verified openly licensed machine-readable GTFS-RT/SIRI feed; do not scrape."
+    }
+  ],
+  "caveats": [
+    "Treat realtime ETA as unknown unless the official app/page or an accessible planner was checked at query time."
+  ]
+}

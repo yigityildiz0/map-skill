@@ -1,0 +1,40 @@
+{
+  "name": "map-skill",
+  "version": "1.0.0",
+  "description": "Reliable, time-aware multimodal route planning with official transit and traffic checks, uncertainty-aware ETA ranges, and city-specific data profiles.",
+  "author": {
+    "name": "Yiğit Yıldız",
+    "url": "https://github.com/yigityildiz0"
+  },
+  "homepage": "https://github.com/yigityildiz0/map-skill",
+  "repository": "https://github.com/yigityildiz0/map-skill",
+  "license": "MIT",
+  "keywords": [
+    "maps",
+    "routing",
+    "transit",
+    "gtfs",
+    "gtfs-realtime",
+    "openstreetmap",
+    "travel",
+    "traffic"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Map Skill",
+    "shortDescription": "Reliable live-aware route planning",
+    "longDescription": "Compare multimodal routes, validate official service and traffic signals, report honest ETA ranges, and open capability-aware navigation links. Includes a universal workflow and an enhanced Istanbul edition.",
+    "developerName": "Yiğit Yıldız",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive"
+    ],
+    "websiteURL": "https://github.com/yigityildiz0/map-skill",
+    "defaultPrompt": [
+      "Plan my public-transit trip with live checks.",
+      "Compare reliable routes and give valid map links.",
+      "Optimize a multi-stop day around opening times."
+    ],
+    "brandColor": "#11B8A6"
+  }
+}

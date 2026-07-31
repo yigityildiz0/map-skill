@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Skill — 東京"
+  short_description: "Official-source route planning for Tokyo"
+  default_prompt: "Use $plan-smart-routes-tokyo to plan my trip with current official checks and truthful map links."

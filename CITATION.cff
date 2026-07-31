@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If Map Skill helps your work, please cite the repository."
+title: "Map Skill"
+type: software
+version: 1.0.0
+date-released: 2026-07-31
+authors:
+  - family-names: "Yıldız"
+    given-names: "Yiğit"
+repository-code: "https://github.com/yigityildiz0/map-skill"
+url: "https://github.com/yigityildiz0/map-skill"
+license: MIT
+keywords:
+  - route planning
+  - public transport
+  - GTFS
+  - traffic
+  - OpenStreetMap

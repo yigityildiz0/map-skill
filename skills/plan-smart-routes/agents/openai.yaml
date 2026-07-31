@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Skill — Universal"
+  short_description: "Reliable live-aware routes worldwide"
+  default_prompt: "Use $plan-smart-routes to plan my trip with current checks, an ETA range, and truthful navigation links."

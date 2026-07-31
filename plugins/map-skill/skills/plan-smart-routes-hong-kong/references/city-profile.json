@@ -1,0 +1,65 @@
+{
+  "slug": "hong-kong",
+  "name": "Hong Kong",
+  "local_name": "香港",
+  "country": "Hong Kong",
+  "country_code": "HK",
+  "timezone": "Asia/Hong_Kong",
+  "region": "Asia-Pacific",
+  "coverage": "strong_no_key",
+  "release_skill": "plan-smart-routes-hong-kong",
+  "provider_preferences": [
+    "Hong Kong Transport Department",
+    "MTR",
+    "Citymapper",
+    "Google Maps"
+  ],
+  "sources": [
+    {
+      "id": "hk-public-transport-gtfs",
+      "kinds": [
+        "static_transit",
+        "schedule",
+        "headways"
+      ],
+      "access": "no_key",
+      "format": "GTFS",
+      "url": "https://data.gov.hk/en-datasets/search/Public%20Transport",
+      "license": "DATA.GOV.HK Terms v1.2 with government, organization, and portal attribution",
+      "use": "Use official multimode schedule/headway baseline.",
+      "limits": "Some modes use frequency/headway data; temporary diversions may be absent."
+    },
+    {
+      "id": "hk-operator-eta",
+      "kinds": [
+        "arrivals",
+        "next_train"
+      ],
+      "access": "no_key",
+      "format": "operator JSON APIs",
+      "url": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
+      "secondary_url": "https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb",
+      "license": "DATA.GOV.HK Terms plus dataset-specific IPR attribution",
+      "use": "Use operator-specific train/bus ETA with exact operator coverage.",
+      "limits": "Schemas are not GTFS-Realtime and smaller operators may be missing."
+    },
+    {
+      "id": "hk-traffic-news",
+      "kinds": [
+        "traffic",
+        "road_closure",
+        "events"
+      ],
+      "access": "no_key",
+      "format": "JSON/XML",
+      "url": "https://data.gov.hk/en-data/dataset/hk-td-sm_4-traffic-data-strategic-major-roads",
+      "secondary_url": "https://data.gov.hk/en-data/dataset/hk-td-tis_19-special-traffic-news-v2",
+      "license": "DATA.GOV.HK Terms v1.2 with attribution",
+      "use": "Use strategic-road traffic and current special traffic news.",
+      "limits": "Coverage is strategic/major roads, not every local street."
+    }
+  ],
+  "caveats": [
+    "Best no-key profile in the initial set, but verify operator coverage for ferries, trams, and small services."
+  ]
+}

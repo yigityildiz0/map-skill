@@ -1,0 +1,64 @@
+{
+  "slug": "new-york",
+  "name": "New York City",
+  "local_name": "New York City",
+  "country": "United States",
+  "country_code": "US",
+  "timezone": "America/New_York",
+  "region": "Americas",
+  "coverage": "strong_with_terms",
+  "release_skill": "plan-smart-routes-new-york",
+  "provider_preferences": [
+    "MTA",
+    "Google Maps",
+    "Apple Maps",
+    "Citymapper"
+  ],
+  "sources": [
+    {
+      "id": "mta-static-and-realtime",
+      "kinds": [
+        "static_transit",
+        "trip_updates",
+        "alerts"
+      ],
+      "access": "no_key",
+      "format": "GTFS and GTFS-Realtime",
+      "url": "https://www.mta.info/developers",
+      "api_url": "https://api.mta.info/",
+      "license": "MTA Developer Terms and Conditions",
+      "use": "Use official subway/rail schedules and no-key realtime where terms allow.",
+      "limits": "MTA terms prohibit connecting end users directly to MTA servers; a compliant proxy/cache is required for an app."
+    },
+    {
+      "id": "mta-bus-time",
+      "kinds": [
+        "bus_arrivals",
+        "vehicle_positions"
+      ],
+      "access": "api_key",
+      "format": "GTFS-Realtime/SIRI",
+      "url": "https://bt.mta.info/developers",
+      "license": "MTA Developer Terms",
+      "use": "Use bus realtime only with credentials and compliant serving architecture.",
+      "limits": "A serverless skill should prefer the MTA passenger page rather than direct end-user API calls."
+    },
+    {
+      "id": "nyc-traffic",
+      "kinds": [
+        "traffic",
+        "road_closure"
+      ],
+      "access": "web_only",
+      "format": "NYC DOT/511NY pages and limited open data",
+      "url": "https://www.nyc.gov/html/dot/html/about/datafeeds.shtml",
+      "secondary_url": "https://www.nyc.gov/html/dot/html/motorist/weektraf.shtml",
+      "license": "NYC Open Data terms for datasets; website terms for pages",
+      "use": "Use main-artery sensor context and official closure pages.",
+      "limits": "Traffic sensors do not cover every street; weekly closures may be web-only."
+    }
+  ],
+  "caveats": [
+    "For this GitHub skill, use MTA passenger pages unless the user has a compliant proxy/API setup."
+  ]
+}

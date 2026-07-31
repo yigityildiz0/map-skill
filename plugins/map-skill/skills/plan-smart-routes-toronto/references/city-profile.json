@@ -1,0 +1,63 @@
+{
+  "slug": "toronto",
+  "name": "Toronto",
+  "local_name": "Toronto",
+  "country": "Canada",
+  "country_code": "CA",
+  "timezone": "America/Toronto",
+  "region": "Americas",
+  "coverage": "strong_no_key",
+  "release_skill": "plan-smart-routes-toronto",
+  "provider_preferences": [
+    "TTC",
+    "Google Maps",
+    "Apple Maps",
+    "Moovit"
+  ],
+  "sources": [
+    {
+      "id": "ttc-gtfs",
+      "kinds": [
+        "static_transit",
+        "schedule"
+      ],
+      "access": "no_key",
+      "format": "GTFS",
+      "url": "https://open.toronto.ca/dataset/ttc-routes-and-schedules/",
+      "license": "Dataset licence field is unspecified; do not assume Toronto OGL",
+      "use": "Fetch at query/build time and attribute TTC/Toronto Open Data.",
+      "limits": "Do not redistribute cached data until the applicable licence is confirmed."
+    },
+    {
+      "id": "ttc-gtfs-rt",
+      "kinds": [
+        "alerts",
+        "trip_updates",
+        "vehicle_positions"
+      ],
+      "access": "no_key",
+      "format": "GTFS-Realtime",
+      "url": "https://gtfsrt.ttc.ca/",
+      "license": "Publisher terms; dataset licence is not explicitly specified",
+      "use": "Use current TTC alerts, updates, and vehicles with feed timestamps.",
+      "limits": "Legacy NextBus/NVAS was retired 2025-11-30; never use it."
+    },
+    {
+      "id": "toronto-road-restrictions",
+      "kinds": [
+        "road_closure",
+        "roadworks"
+      ],
+      "access": "no_key",
+      "format": "JSON",
+      "url": "https://open.toronto.ca/dataset/road-restrictions/",
+      "api_url": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json",
+      "license": "Dataset licence field is unspecified",
+      "use": "Spatially match current restrictions to road-heavy routes.",
+      "limits": "No explicit licence means reference at runtime rather than bundling."
+    }
+  ],
+  "caveats": [
+    "Strong technical coverage but licence ambiguity means runtime retrieval and attribution only."
+  ]
+}

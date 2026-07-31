@@ -1,0 +1,63 @@
+{
+  "slug": "mexico-city",
+  "name": "Mexico City",
+  "local_name": "Ciudad de Mexico",
+  "country": "Mexico",
+  "country_code": "MX",
+  "timezone": "America/Mexico_City",
+  "region": "Americas",
+  "coverage": "static_strong_realtime_partial",
+  "release_skill": "plan-smart-routes-mexico-city",
+  "provider_preferences": [
+    "SEMOVI/operators",
+    "Google Maps",
+    "Apple Maps",
+    "Moovit"
+  ],
+  "sources": [
+    {
+      "id": "semovi-gtfs",
+      "kinds": [
+        "static_transit",
+        "schedule"
+      ],
+      "access": "no_key",
+      "format": "GTFS",
+      "url": "https://datos.cdmx.gob.mx/dataset/gtfs",
+      "license": "CC BY 4.0",
+      "use": "Use the city multimode baseline only after feed validity checks.",
+      "limits": "Catalog text may cite an old 2022 version even when the page is updated; inspect feed_info/calendar_dates."
+    },
+    {
+      "id": "metrobus-realtime",
+      "kinds": [
+        "arrivals",
+        "alerts",
+        "vehicle_positions"
+      ],
+      "access": "registration",
+      "format": "GTFS-Realtime",
+      "url": "https://metrobus.cdmx.gob.mx/portal-ciudadano/datos-abiertos",
+      "license": "Metrobus registration and dataset-specific terms",
+      "use": "Use only for Metrobus realtime coverage.",
+      "limits": "Do not apply Metrobus evidence to Metro, RTP, STE, or other operators."
+    },
+    {
+      "id": "cdmx-passenger-status",
+      "kinds": [
+        "status",
+        "traffic"
+      ],
+      "access": "web_only",
+      "format": "official operator/SSC pages",
+      "url": "https://www.metro.cdmx.gob.mx/la-red/estado-del-servicio",
+      "secondary_url": "https://metrobus.cdmx.gob.mx/ServicioMB",
+      "license": "Publisher terms",
+      "use": "Check exact operator service and current Orientador Vial notices.",
+      "limits": "INFOVIAL open data is historical (2016-2019) and must not be used as live traffic."
+    }
+  ],
+  "caveats": [
+    "Realtime is partial and operator-specific; citywide live traffic is web/social only."
+  ]
+}

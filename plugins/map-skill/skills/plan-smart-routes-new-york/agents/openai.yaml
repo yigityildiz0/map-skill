@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Skill — New York City"
+  short_description: "Official-source route planning for New York City"
+  default_prompt: "Use $plan-smart-routes-new-york to plan my trip with current official checks and truthful map links."

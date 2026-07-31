@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Skill — London"
+  short_description: "Official-source route planning for London"
+  default_prompt: "Use $plan-smart-routes-london to plan my trip with current official checks and truthful map links."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Skill — 서울"
+  short_description: "Official-source route planning for Seoul"
+  default_prompt: "Use $plan-smart-routes-seoul to plan my trip with current official checks and truthful map links."

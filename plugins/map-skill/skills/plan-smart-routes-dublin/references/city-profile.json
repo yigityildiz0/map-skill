@@ -1,0 +1,64 @@
+{
+  "slug": "dublin",
+  "name": "Dublin",
+  "local_name": "Dublin",
+  "country": "Ireland",
+  "country_code": "IE",
+  "timezone": "Europe/Dublin",
+  "region": "Europe",
+  "coverage": "strong_with_registration",
+  "release_skill": "plan-smart-routes-dublin",
+  "provider_preferences": [
+    "Transport for Ireland",
+    "Google Maps",
+    "Apple Maps",
+    "Moovit"
+  ],
+  "sources": [
+    {
+      "id": "nta-gtfs",
+      "kinds": [
+        "static_transit",
+        "schedule"
+      ],
+      "access": "no_key",
+      "format": "GTFS ZIP",
+      "url": "https://www.transportforireland.ie/transitData/Data/GTFS_All.zip",
+      "license": "CC BY 4.0",
+      "use": "Use the national official schedule baseline and record download hash/date.",
+      "limits": "Automated HEAD may return 403 even when the portal permits download; do not mislabel as no service."
+    },
+    {
+      "id": "nta-gtfs-realtime",
+      "kinds": [
+        "arrivals",
+        "vehicle_positions",
+        "alerts"
+      ],
+      "access": "api_key",
+      "format": "NTA GTFS-R v2",
+      "url": "https://api.nationaltransport.ie/gtfsr/v2/gtfsr?format=json",
+      "license": "NTA fair-use terms and attribution",
+      "use": "Use current predictions/vehicles/alerts when a token is configured.",
+      "limits": "Poll no more frequently than once per 60 seconds per token."
+    },
+    {
+      "id": "dublin-status-and-roads",
+      "kinds": [
+        "alerts",
+        "traffic",
+        "road_closure"
+      ],
+      "access": "web_only",
+      "format": "official passenger and traffic pages",
+      "url": "https://www.transportforireland.ie/plan-a-journey/live-travel-info-service-updates/",
+      "secondary_url": "https://traffic.tii.ie/",
+      "license": "Publisher terms",
+      "use": "Cross-check line alerts and live road conditions.",
+      "limits": "Do not use the old frozen TII DATEX travel-time endpoint as live."
+    }
+  ],
+  "caveats": [
+    "The old TII travel-time XML had a stale 2021 publication time and is excluded from live evidence."
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "slug": "chicago",
+  "name": "Chicago",
+  "local_name": "Chicago",
+  "country": "United States",
+  "country_code": "US",
+  "timezone": "America/Chicago",
+  "region": "Americas",
+  "coverage": "transit_medium",
+  "release_skill": "plan-smart-routes-chicago",
+  "provider_preferences": [
+    "CTA",
+    "Google Maps",
+    "Apple Maps",
+    "Moovit"
+  ],
+  "sources": [
+    {
+      "id": "cta-gtfs",
+      "kinds": [
+        "static_transit",
+        "schedule"
+      ],
+      "access": "no_key",
+      "format": "GTFS",
+      "url": "https://www.transitchicago.com/developers/gtfs/",
+      "license": "CTA Developer License Agreement",
+      "use": "Use the official CTA schedule baseline under CTA terms.",
+      "limits": "Licence is limited/revocable and oriented to rider assistance/transit promotion."
+    },
+    {
+      "id": "cta-realtime",
+      "kinds": [
+        "alerts",
+        "trip_updates",
+        "vehicle_positions"
+      ],
+      "access": "api_key",
+      "format": "GTFS-Realtime",
+      "url": "https://transitdata.transitchicago.com/",
+      "secondary_url": "https://www.transitchicago.com/alerts/",
+      "license": "CTA Developer License Agreement",
+      "use": "Use GTFS-RT with a key or official passenger alerts without one.",
+      "limits": "Do not assume the legacy no-key alerts endpoint has the same coverage/freshness."
+    },
+    {
+      "id": "chicago-roads",
+      "kinds": [
+        "traffic",
+        "road_closure"
+      ],
+      "access": "web_only",
+      "format": "IDOT official web",
+      "url": "https://idot.illinois.gov/travel-and-maps/roadways/road-closures.html",
+      "secondary_url": "https://www.gettingaroundillinois.com/",
+      "license": "Publisher terms",
+      "use": "Use official current closures/road conditions.",
+      "limits": "Exclude Chicago Traffic Tracker as live until its records become current again."
+    }
+  ],
+  "caveats": [
+    "The city Traffic Tracker's newest observed record was 2026-04-30 at verification time, so it is not a live source."
+  ]
+}

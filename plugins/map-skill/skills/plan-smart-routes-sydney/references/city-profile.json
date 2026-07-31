@@ -1,0 +1,65 @@
+{
+  "slug": "sydney",
+  "name": "Sydney",
+  "local_name": "Sydney",
+  "country": "Australia",
+  "country_code": "AU",
+  "timezone": "Australia/Sydney",
+  "region": "Asia-Pacific",
+  "coverage": "strong_with_registration",
+  "release_skill": "plan-smart-routes-sydney",
+  "provider_preferences": [
+    "Transport for NSW",
+    "Google Maps",
+    "Apple Maps",
+    "TripView"
+  ],
+  "sources": [
+    {
+      "id": "nsw-complete-gtfs",
+      "kinds": [
+        "static_transit",
+        "schedule"
+      ],
+      "access": "api_key",
+      "format": "GTFS",
+      "url": "https://opendata.transport.nsw.gov.au/data/dataset/timetables-complete-gtfs",
+      "license": "Creative Commons Attribution for the Complete GTFS dataset",
+      "use": "Use the clearly CC-labelled Complete GTFS baseline.",
+      "limits": "Some v2 subrecords say no licence; prefer the explicitly licensed Complete GTFS."
+    },
+    {
+      "id": "nsw-gtfs-realtime",
+      "kinds": [
+        "trip_updates",
+        "vehicle_positions",
+        "alerts"
+      ],
+      "access": "api_key",
+      "format": "GTFS-Realtime",
+      "url": "https://opendata.transport.nsw.gov.au/dataset/public-transport-realtime-trip-update-v2",
+      "secondary_url": "https://opendata.transport.nsw.gov.au/developers/documentation",
+      "license": "Creative Commons Attribution plus portal API terms",
+      "use": "Use v2 for train, metro, and light rail where documented.",
+      "limits": "Free account/API token required; keep 10-15 second update cadence and payload time separate."
+    },
+    {
+      "id": "nsw-live-traffic",
+      "kinds": [
+        "traffic",
+        "road_closure",
+        "flood",
+        "roadworks"
+      ],
+      "access": "api_key",
+      "format": "GeoJSON",
+      "url": "https://opendata.transport.nsw.gov.au/data/dataset/live-traffic-hazards",
+      "license": "Creative Commons Attribution",
+      "use": "Spatially match current hazards to route corridors.",
+      "limits": "A token is required; without one use official passenger/Live Traffic web pages."
+    }
+  ],
+  "caveats": [
+    "High-quality profile when a free Transport for NSW API token is configured; otherwise live automation is limited."
+  ]
+}

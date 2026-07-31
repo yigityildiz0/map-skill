@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="760" viewBox="0 0 1440 760" role="img" aria-labelledby="title desc">
+  <title id="title">Map Skill route synthesis architecture</title>
+  <desc id="desc">A time-aware workflow that resolves the trip, researches provider and official sources in parallel, filters and scores routes, rechecks the winner, and answers compactly.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#06172c"/>
+      <stop offset="1" stop-color="#0b2740"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#20d7c5"/>
+      <stop offset="1" stop-color="#34b6ff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity=".28"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#48d9ce"/>
+    </marker>
+    <style>
+      .title{font:700 34px system-ui,Segoe UI,sans-serif;fill:#f5fbff}.subtitle{font:400 18px system-ui,Segoe UI,sans-serif;fill:#b6cada}.stage{fill:#0d314d;stroke:#24708a;stroke-width:2}.stage-title{font:700 19px system-ui,Segoe UI,sans-serif;fill:#f5fbff}.stage-copy{font:400 15px system-ui,Segoe UI,sans-serif;fill:#bcd2df}.lane{fill:#0a243b;stroke:#2d526b;stroke-width:1.5}.lane-title{font:700 18px system-ui,Segoe UI,sans-serif;fill:#76efe2}.chip{fill:#123b55;stroke:#2c7991;stroke-width:1}.chip-text{font:600 14px system-ui,Segoe UI,sans-serif;fill:#e9f7ff}.note{font:700 16px system-ui,Segoe UI,sans-serif;fill:#ffb083}.arrow{stroke:#48d9ce;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1440" height="760" rx="24" fill="url(#bg)"/>
+  <text x="72" y="72" class="title">One trip request → evidence-backed route answer</text>
+  <text x="72" y="106" class="subtitle">Deep research inside; short, useful output outside.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="150" width="235" height="118" rx="18" class="stage"/>
+    <text x="94" y="186" class="stage-title">1 · Ask once</text>
+    <text x="94" y="216" class="stage-copy">Origin · destination</text>
+    <text x="94" y="240" class="stage-copy">date · depart/arrive time</text>
+
+    <rect x="355" y="150" width="235" height="118" rx="18" class="stage"/>
+    <text x="379" y="186" class="stage-title">2 · Resolve places</text>
+    <text x="379" y="216" class="stage-copy">Pin · branch · entrance</text>
+    <text x="379" y="240" class="stage-copy">timezone · ordered stops</text>
+
+    <rect x="1135" y="150" width="235" height="118" rx="18" class="stage"/>
+    <text x="1159" y="186" class="stage-title">7 · Compact answer</text>
+    <text x="1159" y="216" class="stage-copy">Route · ETA range · buffer</text>
+    <text x="1159" y="240" class="stage-copy">warning · truthful links</text>
+  </g>
+
+  <path d="M305 209 H345" class="arrow"/>
+  <path d="M590 209 H635" class="arrow"/>
+
+  <g filter="url(#shadow)">
+    <rect x="635" y="130" width="450" height="335" rx="22" class="lane"/>
+    <text x="665" y="170" class="lane-title">3 · Parallel evidence lanes</text>
+
+    <rect x="665" y="196" width="390" height="70" rx="14" class="chip"/>
+    <text x="687" y="224" class="chip-text">Route providers</text>
+    <text x="687" y="248" class="stage-copy">all visible alternatives, not only #1</text>
+
+    <rect x="665" y="280" width="390" height="70" rx="14" class="chip"/>
+    <text x="687" y="308" class="chip-text">Official transit</text>
+    <text x="687" y="332" class="stage-copy">schedule · realtime · disruptions · fares</text>
+
+    <rect x="665" y="364" width="187" height="70" rx="14" class="chip"/>
+    <text x="687" y="392" class="chip-text">Road + events</text>
+    <text x="687" y="416" class="stage-copy">traffic · closures</text>
+
+    <rect x="868" y="364" width="187" height="70" rx="14" class="chip"/>
+    <text x="890" y="392" class="chip-text">Trip context</text>
+    <text x="890" y="416" class="stage-copy">weather · opening</text>
+  </g>
+
+  <path d="M1085 209 H1125" class="arrow"/>
+
+  <g filter="url(#shadow)">
+    <rect x="190" y="535" width="235" height="118" rx="18" class="stage"/>
+    <text x="214" y="571" class="stage-title">4 · Normalize</text>
+    <text x="214" y="601" class="stage-copy">Deduplicate line/stop paths</text>
+    <text x="214" y="625" class="stage-copy">preserve every observation</text>
+
+    <rect x="490" y="535" width="235" height="118" rx="18" class="stage"/>
+    <text x="514" y="571" class="stage-title">5 · Filter + score</text>
+    <text x="514" y="601" class="stage-copy">Reject impossible routes first</text>
+    <text x="514" y="625" class="stage-copy">then rank available evidence</text>
+
+    <rect x="790" y="535" width="235" height="118" rx="18" class="stage"/>
+    <text x="814" y="571" class="stage-title">6 · Recheck winner</text>
+    <text x="814" y="601" class="stage-copy">Exact lines · corridor · venue</text>
+    <text x="814" y="625" class="stage-copy">fresh timestamps · uncertainty</text>
+  </g>
+
+  <path d="M860 465 V500 H308 V525" class="arrow"/>
+  <path d="M425 594 H480" class="arrow"/>
+  <path d="M725 594 H780" class="arrow"/>
+  <path d="M1025 594 H1250 V278" class="arrow"/>
+
+  <rect x="1085" y="520" width="285" height="90" rx="16" fill="#3b2431" stroke="#d87372" stroke-width="1.5"/>
+  <text x="1111" y="555" class="note">NO DATA ≠ NO SERVICE</text>
+  <text x="1111" y="583" class="stage-copy">Unknown stays unknown.</text>
+
+  <text x="72" y="716" class="subtitle">Official status outranks third-party ETA · links encode only documented capabilities · exact private places are not saved by default</text>
+</svg>

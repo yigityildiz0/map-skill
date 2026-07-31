@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Skill — Sydney"
+  short_description: "Official-source route planning for Sydney"
+  default_prompt: "Use $plan-smart-routes-sydney to plan my trip with current official checks and truthful map links."

@@ -1,0 +1,762 @@
+{
+  "schema_version": "1.0",
+  "verified_on": "2026-07-31",
+  "integrity_rules": [
+    "Official or first-party sources outrank third-party planners.",
+    "A source failure is no_data, never no_service or no_route.",
+    "Keep publisher timestamps and retrieval timestamps separate.",
+    "Do not call web_only sources machine-readable or scrape protected pages.",
+    "Do not call registration or api_key sources unless credentials are already configured.",
+    "Recheck the selected line and corridor immediately before answering."
+  ],
+  "profiles": [
+    {
+      "slug": "istanbul",
+      "name": "Istanbul",
+      "local_name": "İstanbul",
+      "country": "Türkiye",
+      "country_code": "TR",
+      "timezone": "Europe/Istanbul",
+      "region": "Europe",
+      "coverage": "enhanced",
+      "release_skill": "plan-smart-routes-istanbul",
+      "provider_preferences": ["official operators", "Yandex Maps", "Google Maps", "Moovit"],
+      "sources": [
+        {
+          "id": "ibb-traffic-and-closures",
+          "kinds": ["traffic", "road_closure"],
+          "access": "no_key",
+          "format": "JSON and official live map",
+          "url": "https://uym.ibb.gov.tr/yharita6/",
+          "api_url": "https://api.ibb.gov.tr/tkmservices/api/TrafficData/v1/TrafficIndexHistory/1/5M",
+          "license": "IBB Open Data Licence applies only to catalogued open-data assets",
+          "use": "Use the index as city context and spatially match current announcements for corridor checks.",
+          "limits": "A citywide index is not a route-segment ETA; undocumented schemas may drift."
+        },
+        {
+          "id": "metro-istanbul",
+          "kinds": ["status", "schedule", "fare"],
+          "access": "no_key",
+          "format": "JSON/OpenAPI",
+          "url": "https://api.ibb.gov.tr/MetroIstanbul/swagger/v1/swagger.json",
+          "api_url": "https://api.ibb.gov.tr/MetroIstanbul/api/MetroMobile/V2/GetServiceStatuses",
+          "license": "Publisher terms; summarize and link unless an open-data licence is explicit",
+          "use": "Check exact rail-line service status and update time.",
+          "limits": "IsActive alone does not prove healthy service; Metro fare is not an all-network total."
+        },
+        {
+          "id": "iett-live-and-gtfs",
+          "kinds": ["static_transit", "vehicle_positions", "alerts", "schedule"],
+          "access": "no_key",
+          "format": "GTFS plus IETT SOAP/JSON",
+          "url": "https://data.ibb.gov.tr/api/3/action/package_show?id=iett-gtfs-verisi",
+          "api_url": "https://api.ibb.gov.tr/iett/FiloDurum/SeferGerceklesme.asmx?wsdl",
+          "license": "IBB Open Data Licence for CKAN packages; endpoint terms may differ",
+          "use": "Use current static bus baseline, alerts, and exact-line vehicle context.",
+          "limits": "IETT live data is not GTFS-Realtime and vehicle positions are not passenger ETA."
+        },
+        {
+          "id": "istanbul-ferry-marmaray",
+          "kinds": ["schedule", "alerts"],
+          "access": "web_only",
+          "format": "official passenger pages",
+          "url": "https://sehirhatlari.istanbul/tr/iptal-seferler",
+          "secondary_url": "https://www.tcddtasimacilik.gov.tr/marmaray/tr/son_dakika",
+          "license": "Publisher terms",
+          "use": "Check exact ferry cancellations and Marmaray last-minute notices.",
+          "limits": "No verified public live vessel or Marmaray train-position feed."
+        }
+      ],
+      "caveats": [
+        "No verified citywide standard GTFS-Realtime feed covers all modes.",
+        "The legacy multi-operator IBB GTFS package is historical and must not be used as current.",
+        "Prefer rail when comparable; road-heavy bus ETA needs route-specific traffic evidence."
+      ]
+    },
+    {
+      "slug": "london",
+      "name": "London",
+      "local_name": "London",
+      "country": "United Kingdom",
+      "country_code": "GB",
+      "timezone": "Europe/London",
+      "region": "Europe",
+      "coverage": "strong_with_registration",
+      "release_skill": "plan-smart-routes-london",
+      "provider_preferences": ["TfL", "Citymapper", "Google Maps", "Apple Maps"],
+      "sources": [
+        {
+          "id": "tfl-open-data",
+          "kinds": ["static_transit", "schedule"],
+          "access": "registration",
+          "format": "TfL feeds",
+          "url": "https://tfl.gov.uk/info-for/open-data-users/our-open-data",
+          "license": "Open Government Licence v3 plus TfL attribution and trademark rules",
+          "use": "Use TfL's current timetable/network feeds as the official baseline.",
+          "limits": "TfL does not publish one complete citywide GTFS equivalent for every mode."
+        },
+        {
+          "id": "tfl-unified-api",
+          "kinds": ["arrivals", "status", "alerts", "journey_planner"],
+          "access": "api_key",
+          "format": "JSON API",
+          "url": "https://tfl.gov.uk/info-for/open-data-users/unified-api",
+          "license": "Open Government Licence v3 plus TfL conditions",
+          "use": "Use arrivals, line status, disruptions, and official journey planning when credentials exist.",
+          "limits": "Some arrival observations can be stale after roughly 30 seconds; keep timestamps."
+        },
+        {
+          "id": "tfl-traffic",
+          "kinds": ["traffic", "road_closure", "events"],
+          "access": "web_only",
+          "format": "official live status",
+          "url": "https://tfl.gov.uk/traffic/status",
+          "secondary_url": "https://tfl.gov.uk/status-updates/major-works-and-events",
+          "license": "TfL website terms",
+          "use": "Validate current corridor incidents, works, and large events.",
+          "limits": "TfL road coverage is not uniform across every borough road."
+        }
+      ],
+      "caveats": ["No key means official web checks only for live data.", "Always keep TfL source and payload timestamps."]
+    },
+    {
+      "slug": "paris",
+      "name": "Paris / Ile-de-France",
+      "local_name": "Paris / Île-de-France",
+      "country": "France",
+      "country_code": "FR",
+      "timezone": "Europe/Paris",
+      "region": "Europe",
+      "coverage": "strong_with_registration",
+      "release_skill": "plan-smart-routes-paris",
+      "provider_preferences": ["Ile-de-France Mobilites", "Citymapper", "Google Maps", "Apple Maps"],
+      "sources": [
+        {
+          "id": "idfm-gtfs",
+          "kinds": ["static_transit", "schedule"],
+          "access": "registration",
+          "format": "GTFS",
+          "url": "https://prim.iledefrance-mobilites.fr/jeux-de-donnees/offre-horaires-tc-gtfs-idfm",
+          "license": "Licence Mobilite",
+          "use": "Official all-operator baseline with a rolling timetable horizon.",
+          "limits": "Validate feed horizon and service date on every build."
+        },
+        {
+          "id": "idfm-siri",
+          "kinds": ["arrivals", "alerts"],
+          "access": "api_key",
+          "format": "SIRI Lite",
+          "url": "https://prim.iledefrance-mobilites.fr/fr/apis/idfm-ivtr-requete_ligne",
+          "secondary_url": "https://prim.iledefrance-mobilites.fr/fr/apis/idfm-ivtr-info_trafic",
+          "license": "Licence Mobilite",
+          "use": "Use next passages and traffic information for covered operators/lines.",
+          "limits": "Realtime does not cover every line; check the official coverage list."
+        },
+        {
+          "id": "paris-road-status",
+          "kinds": ["traffic", "road_closure"],
+          "access": "web_only",
+          "format": "official maps/pages",
+          "url": "https://www2.sytadin.fr/",
+          "secondary_url": "https://www.paris.fr/pages/travaux-trafic-fermetures-41/",
+          "license": "Publisher terms; do not republish live-map content",
+          "use": "Check live regional traffic and planned Paris street closures.",
+          "limits": "Summarize and link rather than copying live-map content."
+        }
+      ],
+      "caveats": ["No realtime record is no_data, not proof of normal service.", "Check the PRIM realtime coverage list before raising confidence."]
+    },
+    {
+      "slug": "berlin",
+      "name": "Berlin / Brandenburg",
+      "local_name": "Berlin / Brandenburg",
+      "country": "Germany",
+      "country_code": "DE",
+      "timezone": "Europe/Berlin",
+      "region": "Europe",
+      "coverage": "strong_but_realtime_degraded",
+      "release_skill": "plan-smart-routes-berlin",
+      "provider_preferences": ["VBB", "BVG", "Google Maps", "Apple Maps"],
+      "sources": [
+        {
+          "id": "vbb-gtfs",
+          "kinds": ["static_transit", "schedule"],
+          "access": "no_key",
+          "format": "GTFS",
+          "url": "https://unternehmen.vbb.de/digitale-services/datensaetze/",
+          "license": "CC BY 4.0",
+          "use": "Use the official VBB schedule baseline.",
+          "limits": "Retain feed date/hash and validate calendar exceptions."
+        },
+        {
+          "id": "vbb-gtfs-rt",
+          "kinds": ["trip_updates", "vehicle_positions", "alerts"],
+          "access": "no_key",
+          "format": "GTFS-Realtime",
+          "url": "https://production.gtfsrt.vbb.de/data",
+          "license": "CC BY 4.0",
+          "use": "Use as realtime evidence only when fresh and coverage is intact.",
+          "limits": "Official page reports data loss/incomplete coverage since 2026-06-04; cross-check VBB/operator alerts."
+        },
+        {
+          "id": "viz-berlin",
+          "kinds": ["traffic", "road_closure"],
+          "access": "web_only",
+          "format": "official live map",
+          "url": "https://viz.berlin.de/",
+          "license": "Archive datasets may be dl-de/by-2.0; live map terms differ",
+          "use": "Validate current traffic and closures visually.",
+          "limits": "Traffic-detection archives are not a live route ETA source."
+        }
+      ],
+      "caveats": ["Static coverage is strong but current GTFS-RT confidence is reduced until VBB's data-loss notice clears."]
+    },
+    {
+      "slug": "dublin",
+      "name": "Dublin",
+      "local_name": "Dublin",
+      "country": "Ireland",
+      "country_code": "IE",
+      "timezone": "Europe/Dublin",
+      "region": "Europe",
+      "coverage": "strong_with_registration",
+      "release_skill": "plan-smart-routes-dublin",
+      "provider_preferences": ["Transport for Ireland", "Google Maps", "Apple Maps", "Moovit"],
+      "sources": [
+        {
+          "id": "nta-gtfs",
+          "kinds": ["static_transit", "schedule"],
+          "access": "no_key",
+          "format": "GTFS ZIP",
+          "url": "https://www.transportforireland.ie/transitData/Data/GTFS_All.zip",
+          "license": "CC BY 4.0",
+          "use": "Use the national official schedule baseline and record download hash/date.",
+          "limits": "Automated HEAD may return 403 even when the portal permits download; do not mislabel as no service."
+        },
+        {
+          "id": "nta-gtfs-realtime",
+          "kinds": ["arrivals", "vehicle_positions", "alerts"],
+          "access": "api_key",
+          "format": "NTA GTFS-R v2",
+          "url": "https://api.nationaltransport.ie/gtfsr/v2/gtfsr?format=json",
+          "license": "NTA fair-use terms and attribution",
+          "use": "Use current predictions/vehicles/alerts when a token is configured.",
+          "limits": "Poll no more frequently than once per 60 seconds per token."
+        },
+        {
+          "id": "dublin-status-and-roads",
+          "kinds": ["alerts", "traffic", "road_closure"],
+          "access": "web_only",
+          "format": "official passenger and traffic pages",
+          "url": "https://www.transportforireland.ie/plan-a-journey/live-travel-info-service-updates/",
+          "secondary_url": "https://traffic.tii.ie/",
+          "license": "Publisher terms",
+          "use": "Cross-check line alerts and live road conditions.",
+          "limits": "Do not use the old frozen TII DATEX travel-time endpoint as live."
+        }
+      ],
+      "caveats": ["The old TII travel-time XML had a stale 2021 publication time and is excluded from live evidence."]
+    },
+    {
+      "slug": "milan",
+      "name": "Milan",
+      "local_name": "Milano",
+      "country": "Italy",
+      "country_code": "IT",
+      "timezone": "Europe/Rome",
+      "region": "Europe",
+      "coverage": "static_plus_web",
+      "release_skill": "plan-smart-routes-milan",
+      "provider_preferences": ["ATM Milano", "Google Maps", "Apple Maps", "Moovit"],
+      "sources": [
+        {
+          "id": "milan-gtfs",
+          "kinds": ["static_transit", "schedule"],
+          "access": "no_key",
+          "format": "GTFS",
+          "url": "https://dati.comune.milano.it/dataset/ds929-orari-del-trasporto-pubblico-locale-nel-comune-di-milano-in-formato-gtfs",
+          "api_url": "https://dati.comune.milano.it/gtfs.zip",
+          "license": "CC BY",
+          "use": "Use the official local schedule baseline.",
+          "limits": "Refresh cadence varies; validate service dates."
+        },
+        {
+          "id": "atm-live-status",
+          "kinds": ["arrivals", "alerts"],
+          "access": "web_only",
+          "format": "official app/passenger pages",
+          "url": "https://www.atm.it/IT/VIAGGIACONNOI/INFOTRAFFICO/Pagine/default2.aspx",
+          "secondary_url": "https://www.atm.it/it/ViaggiaConNoi/pagamenti_servizi_digitali/Pagine/ATMMobile.aspx",
+          "license": "ATM publisher terms",
+          "use": "Check planned changes and current passenger information.",
+          "limits": "No verified openly licensed machine-readable GTFS-RT/SIRI feed; do not scrape."
+        }
+      ],
+      "caveats": ["Treat realtime ETA as unknown unless the official app/page or an accessible planner was checked at query time."]
+    },
+    {
+      "slug": "madrid",
+      "name": "Madrid",
+      "local_name": "Madrid",
+      "country": "Spain",
+      "country_code": "ES",
+      "timezone": "Europe/Madrid",
+      "region": "Europe",
+      "coverage": "hybrid",
+      "release_skill": "plan-smart-routes-madrid",
+      "provider_preferences": ["CRTM", "EMT Madrid", "Google Maps", "Moovit"],
+      "sources": [
+        {
+          "id": "crtm-open-data",
+          "kinds": ["static_transit", "schedule"],
+          "access": "no_key",
+          "format": "GTFS/SHP/KML/CSV",
+          "url": "https://transparencia.crtm.es/presupuestos-contratos-y-gastos/datos-abiertos/?lang=es",
+          "license": "CRTM LDA; retain metadata and linked Powered by CRTM attribution",
+          "use": "Use the regional schedule baseline.",
+          "limits": "Realtime coverage is not citywide."
+        },
+        {
+          "id": "emt-madrid-live",
+          "kinds": ["arrivals", "alerts"],
+          "access": "api_key",
+          "format": "EMT API and Protobuf alerts",
+          "url": "https://datos.emtmadrid.es/es/dataset/tiempo-real-para-autobuses-de-emt",
+          "license": "EMT terms",
+          "use": "Use only for EMT city-bus realtime when credentials exist.",
+          "limits": "Do not extend EMT evidence to Metro, Cercanias, or interurban services."
+        },
+        {
+          "id": "dgt-incidents",
+          "kinds": ["traffic", "road_closure"],
+          "access": "no_key",
+          "format": "DATEX II",
+          "url": "https://nap.dgt.es/es/dataset/incidencias-dgt-datex2-v3-7",
+          "license": "CC BY",
+          "use": "Use current road incidents and corridor controls.",
+          "limits": "Match incidents spatially; do not apply regional events to every route."
+        }
+      ],
+      "caveats": ["Use CRTM passenger alerts to cover Metro/Cercanias/interurban gaps."]
+    },
+    {
+      "slug": "tokyo",
+      "name": "Tokyo",
+      "local_name": "東京",
+      "country": "Japan",
+      "country_code": "JP",
+      "timezone": "Asia/Tokyo",
+      "region": "Asia-Pacific",
+      "coverage": "operator_partial",
+      "release_skill": "plan-smart-routes-tokyo",
+      "provider_preferences": ["official operators", "Google Maps", "Apple Maps", "Japan Transit Planner"],
+      "sources": [
+        {
+          "id": "odpt-gtfs",
+          "kinds": ["static_transit", "schedule"],
+          "access": "api_key",
+          "format": "GTFS",
+          "url": "https://ckan.odpt.org/en/dataset/train-tokyometro",
+          "secondary_url": "https://ckan.odpt.org/en/dataset/train-toei",
+          "license": "ODPT Basic License; Toei assets may be CC BY 4.0 with specified attribution",
+          "use": "Use Tokyo Metro and Toei operator baselines after ODPT registration.",
+          "limits": "This does not cover all JR/private operators in metropolitan Tokyo."
+        },
+        {
+          "id": "odpt-gtfs-rt",
+          "kinds": ["trip_updates", "vehicle_positions", "alerts"],
+          "access": "api_key",
+          "format": "GTFS-Realtime",
+          "url": "https://ckan.odpt.org/en/dataset/r_train_gtfs_rt-odpt_train-toei",
+          "secondary_url": "https://ckan.odpt.org/en/dataset/r_train_gtfs_rt-odpt_train-tokyometro",
+          "license": "Dataset-specific ODPT/Toei licence and attribution",
+          "use": "Use only the entity types each operator actually publishes.",
+          "limits": "Tokyo Metro feed is Alert-only; Toei coverage is richer but still partial."
+        },
+        {
+          "id": "jartic",
+          "kinds": ["traffic", "road_closure"],
+          "access": "web_only",
+          "format": "official live map",
+          "url": "https://www.jartic.or.jp/",
+          "license": "JARTIC terms prohibit republishing live web content",
+          "use": "Use as a human-visible corridor traffic check and link to the official map.",
+          "limits": "Do not scrape or reproduce live map content."
+        }
+      ],
+      "caveats": ["Coverage is partial; never label this as all-Tokyo realtime.", "Prefer an exact operator status page when the trip uses a non-ODPT operator."]
+    },
+    {
+      "slug": "seoul",
+      "name": "Seoul",
+      "local_name": "서울",
+      "country": "South Korea",
+      "country_code": "KR",
+      "timezone": "Asia/Seoul",
+      "region": "Asia-Pacific",
+      "coverage": "city_partial",
+      "release_skill": "plan-smart-routes-seoul",
+      "provider_preferences": ["Seoul Open Data", "TOPIS", "Naver Map", "KakaoMap", "Google Maps"],
+      "sources": [
+        {
+          "id": "seoul-transit-apis",
+          "kinds": ["schedule", "arrivals", "bus_routes"],
+          "access": "api_key",
+          "format": "Seoul JSON/XML APIs",
+          "url": "https://data.seoul.go.kr/dataList/OA-12764/A/1/datasetView.do",
+          "secondary_url": "https://data.seoul.go.kr/dataList/OA-15346/F/1/datasetView.do",
+          "license": "KOGL Type 1 for cited datasets",
+          "use": "Use subway and bus realtime within documented Seoul coverage.",
+          "limits": "These are not GTFS/GTFS-Realtime; check recptnDt and city-boundary gaps."
+        },
+        {
+          "id": "topis",
+          "kinds": ["traffic", "road_closure", "events"],
+          "access": "registration",
+          "format": "TOPIS API and official web",
+          "url": "https://topis.seoul.go.kr/",
+          "secondary_url": "https://topis.seoul.go.kr/refRoom/openRefRoom_4.do",
+          "license": "TOPIS API page limits use to non-profit purposes; apply the stricter term",
+          "use": "Use current traffic speed and incidents when terms and credentials permit.",
+          "limits": "Do not bundle/cache restricted TOPIS payloads in the repository."
+        },
+        {
+          "id": "seoul-metro-status",
+          "kinds": ["status"],
+          "access": "web_only",
+          "format": "official passenger view",
+          "url": "https://smss.seoulmetro.co.kr/traininfo/traininfoUserView.do",
+          "license": "Publisher terms",
+          "use": "Cross-check current train operation.",
+          "limits": "Detailed status is primarily Korean and does not cover every metropolitan operator."
+        }
+      ],
+      "caveats": ["No verified official citywide GTFS feed.", "Seoul APIs may omit sections outside the city boundary."]
+    },
+    {
+      "slug": "singapore",
+      "name": "Singapore",
+      "local_name": "Singapore",
+      "country": "Singapore",
+      "country_code": "SG",
+      "timezone": "Asia/Singapore",
+      "region": "Asia-Pacific",
+      "coverage": "bus_strong_rail_partial",
+      "release_skill": "plan-smart-routes-singapore",
+      "provider_preferences": ["LTA / MyTransport.SG", "Google Maps", "Apple Maps", "Moovit"],
+      "sources": [
+        {
+          "id": "lta-datamall-transit",
+          "kinds": ["bus_routes", "schedule", "bus_arrivals", "rail_alerts", "crowding"],
+          "access": "api_key",
+          "format": "LTA DataMall JSON",
+          "url": "https://datamall.lta.gov.sg/content/datamall/en/dynamic-data.html",
+          "license": "Singapore Open Data Licence plus DataMall API terms and attribution",
+          "use": "Use bus network/ETA and rail alerts when an AccountKey is configured.",
+          "limits": "No complete public MRT timetable or next-train API; do not invent rail ETA."
+        },
+        {
+          "id": "lta-traffic",
+          "kinds": ["traffic", "road_closure", "roadworks"],
+          "access": "api_key",
+          "format": "LTA DataMall JSON",
+          "url": "https://datamall.lta.gov.sg/content/datamall/en/dynamic-data.html",
+          "license": "Singapore Open Data Licence plus API terms",
+          "use": "Use incidents, speed bands, roadworks, and VMS data.",
+          "limits": "Keep AccountKey secret and respect published limits."
+        },
+        {
+          "id": "singapore-passenger-status",
+          "kinds": ["rail_status", "road_closure"],
+          "access": "web_only",
+          "format": "official passenger pages",
+          "url": "https://mytransport.sg/trainstatus",
+          "secondary_url": "https://onemotoring.lta.gov.sg/content/onemotoring/home/driving/traffic_information/traffic_updates_and_road_closures.html",
+          "license": "Publisher terms",
+          "use": "No-key human verification for rail status and road closures.",
+          "limits": "Do not represent passenger pages as machine feeds."
+        }
+      ],
+      "caveats": ["Bus and traffic evidence can be high-confidence with a key; rail ETA remains planner/status based."]
+    },
+    {
+      "slug": "hong-kong",
+      "name": "Hong Kong",
+      "local_name": "香港",
+      "country": "Hong Kong",
+      "country_code": "HK",
+      "timezone": "Asia/Hong_Kong",
+      "region": "Asia-Pacific",
+      "coverage": "strong_no_key",
+      "release_skill": "plan-smart-routes-hong-kong",
+      "provider_preferences": ["Hong Kong Transport Department", "MTR", "Citymapper", "Google Maps"],
+      "sources": [
+        {
+          "id": "hk-public-transport-gtfs",
+          "kinds": ["static_transit", "schedule", "headways"],
+          "access": "no_key",
+          "format": "GTFS",
+          "url": "https://data.gov.hk/en-datasets/search/Public%20Transport",
+          "license": "DATA.GOV.HK Terms v1.2 with government, organization, and portal attribution",
+          "use": "Use official multimode schedule/headway baseline.",
+          "limits": "Some modes use frequency/headway data; temporary diversions may be absent."
+        },
+        {
+          "id": "hk-operator-eta",
+          "kinds": ["arrivals", "next_train"],
+          "access": "no_key",
+          "format": "operator JSON APIs",
+          "url": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
+          "secondary_url": "https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb",
+          "license": "DATA.GOV.HK Terms plus dataset-specific IPR attribution",
+          "use": "Use operator-specific train/bus ETA with exact operator coverage.",
+          "limits": "Schemas are not GTFS-Realtime and smaller operators may be missing."
+        },
+        {
+          "id": "hk-traffic-news",
+          "kinds": ["traffic", "road_closure", "events"],
+          "access": "no_key",
+          "format": "JSON/XML",
+          "url": "https://data.gov.hk/en-data/dataset/hk-td-sm_4-traffic-data-strategic-major-roads",
+          "secondary_url": "https://data.gov.hk/en-data/dataset/hk-td-tis_19-special-traffic-news-v2",
+          "license": "DATA.GOV.HK Terms v1.2 with attribution",
+          "use": "Use strategic-road traffic and current special traffic news.",
+          "limits": "Coverage is strategic/major roads, not every local street."
+        }
+      ],
+      "caveats": ["Best no-key profile in the initial set, but verify operator coverage for ferries, trams, and small services."]
+    },
+    {
+      "slug": "toronto",
+      "name": "Toronto",
+      "local_name": "Toronto",
+      "country": "Canada",
+      "country_code": "CA",
+      "timezone": "America/Toronto",
+      "region": "Americas",
+      "coverage": "strong_no_key",
+      "release_skill": "plan-smart-routes-toronto",
+      "provider_preferences": ["TTC", "Google Maps", "Apple Maps", "Moovit"],
+      "sources": [
+        {
+          "id": "ttc-gtfs",
+          "kinds": ["static_transit", "schedule"],
+          "access": "no_key",
+          "format": "GTFS",
+          "url": "https://open.toronto.ca/dataset/ttc-routes-and-schedules/",
+          "license": "Dataset licence field is unspecified; do not assume Toronto OGL",
+          "use": "Fetch at query/build time and attribute TTC/Toronto Open Data.",
+          "limits": "Do not redistribute cached data until the applicable licence is confirmed."
+        },
+        {
+          "id": "ttc-gtfs-rt",
+          "kinds": ["alerts", "trip_updates", "vehicle_positions"],
+          "access": "no_key",
+          "format": "GTFS-Realtime",
+          "url": "https://gtfsrt.ttc.ca/",
+          "license": "Publisher terms; dataset licence is not explicitly specified",
+          "use": "Use current TTC alerts, updates, and vehicles with feed timestamps.",
+          "limits": "Legacy NextBus/NVAS was retired 2025-11-30; never use it."
+        },
+        {
+          "id": "toronto-road-restrictions",
+          "kinds": ["road_closure", "roadworks"],
+          "access": "no_key",
+          "format": "JSON",
+          "url": "https://open.toronto.ca/dataset/road-restrictions/",
+          "api_url": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json",
+          "license": "Dataset licence field is unspecified",
+          "use": "Spatially match current restrictions to road-heavy routes.",
+          "limits": "No explicit licence means reference at runtime rather than bundling."
+        }
+      ],
+      "caveats": ["Strong technical coverage but licence ambiguity means runtime retrieval and attribution only."]
+    },
+    {
+      "slug": "new-york",
+      "name": "New York City",
+      "local_name": "New York City",
+      "country": "United States",
+      "country_code": "US",
+      "timezone": "America/New_York",
+      "region": "Americas",
+      "coverage": "strong_with_terms",
+      "release_skill": "plan-smart-routes-new-york",
+      "provider_preferences": ["MTA", "Google Maps", "Apple Maps", "Citymapper"],
+      "sources": [
+        {
+          "id": "mta-static-and-realtime",
+          "kinds": ["static_transit", "trip_updates", "alerts"],
+          "access": "no_key",
+          "format": "GTFS and GTFS-Realtime",
+          "url": "https://www.mta.info/developers",
+          "api_url": "https://api.mta.info/",
+          "license": "MTA Developer Terms and Conditions",
+          "use": "Use official subway/rail schedules and no-key realtime where terms allow.",
+          "limits": "MTA terms prohibit connecting end users directly to MTA servers; a compliant proxy/cache is required for an app."
+        },
+        {
+          "id": "mta-bus-time",
+          "kinds": ["bus_arrivals", "vehicle_positions"],
+          "access": "api_key",
+          "format": "GTFS-Realtime/SIRI",
+          "url": "https://bt.mta.info/developers",
+          "license": "MTA Developer Terms",
+          "use": "Use bus realtime only with credentials and compliant serving architecture.",
+          "limits": "A serverless skill should prefer the MTA passenger page rather than direct end-user API calls."
+        },
+        {
+          "id": "nyc-traffic",
+          "kinds": ["traffic", "road_closure"],
+          "access": "web_only",
+          "format": "NYC DOT/511NY pages and limited open data",
+          "url": "https://www.nyc.gov/html/dot/html/about/datafeeds.shtml",
+          "secondary_url": "https://www.nyc.gov/html/dot/html/motorist/weektraf.shtml",
+          "license": "NYC Open Data terms for datasets; website terms for pages",
+          "use": "Use main-artery sensor context and official closure pages.",
+          "limits": "Traffic sensors do not cover every street; weekly closures may be web-only."
+        }
+      ],
+      "caveats": ["For this GitHub skill, use MTA passenger pages unless the user has a compliant proxy/API setup."]
+    },
+    {
+      "slug": "chicago",
+      "name": "Chicago",
+      "local_name": "Chicago",
+      "country": "United States",
+      "country_code": "US",
+      "timezone": "America/Chicago",
+      "region": "Americas",
+      "coverage": "transit_medium",
+      "release_skill": "plan-smart-routes-chicago",
+      "provider_preferences": ["CTA", "Google Maps", "Apple Maps", "Moovit"],
+      "sources": [
+        {
+          "id": "cta-gtfs",
+          "kinds": ["static_transit", "schedule"],
+          "access": "no_key",
+          "format": "GTFS",
+          "url": "https://www.transitchicago.com/developers/gtfs/",
+          "license": "CTA Developer License Agreement",
+          "use": "Use the official CTA schedule baseline under CTA terms.",
+          "limits": "Licence is limited/revocable and oriented to rider assistance/transit promotion."
+        },
+        {
+          "id": "cta-realtime",
+          "kinds": ["alerts", "trip_updates", "vehicle_positions"],
+          "access": "api_key",
+          "format": "GTFS-Realtime",
+          "url": "https://transitdata.transitchicago.com/",
+          "secondary_url": "https://www.transitchicago.com/alerts/",
+          "license": "CTA Developer License Agreement",
+          "use": "Use GTFS-RT with a key or official passenger alerts without one.",
+          "limits": "Do not assume the legacy no-key alerts endpoint has the same coverage/freshness."
+        },
+        {
+          "id": "chicago-roads",
+          "kinds": ["traffic", "road_closure"],
+          "access": "web_only",
+          "format": "IDOT official web",
+          "url": "https://idot.illinois.gov/travel-and-maps/roadways/road-closures.html",
+          "secondary_url": "https://www.gettingaroundillinois.com/",
+          "license": "Publisher terms",
+          "use": "Use official current closures/road conditions.",
+          "limits": "Exclude Chicago Traffic Tracker as live until its records become current again."
+        }
+      ],
+      "caveats": ["The city Traffic Tracker's newest observed record was 2026-04-30 at verification time, so it is not a live source."]
+    },
+    {
+      "slug": "mexico-city",
+      "name": "Mexico City",
+      "local_name": "Ciudad de Mexico",
+      "country": "Mexico",
+      "country_code": "MX",
+      "timezone": "America/Mexico_City",
+      "region": "Americas",
+      "coverage": "static_strong_realtime_partial",
+      "release_skill": "plan-smart-routes-mexico-city",
+      "provider_preferences": ["SEMOVI/operators", "Google Maps", "Apple Maps", "Moovit"],
+      "sources": [
+        {
+          "id": "semovi-gtfs",
+          "kinds": ["static_transit", "schedule"],
+          "access": "no_key",
+          "format": "GTFS",
+          "url": "https://datos.cdmx.gob.mx/dataset/gtfs",
+          "license": "CC BY 4.0",
+          "use": "Use the city multimode baseline only after feed validity checks.",
+          "limits": "Catalog text may cite an old 2022 version even when the page is updated; inspect feed_info/calendar_dates."
+        },
+        {
+          "id": "metrobus-realtime",
+          "kinds": ["arrivals", "alerts", "vehicle_positions"],
+          "access": "registration",
+          "format": "GTFS-Realtime",
+          "url": "https://metrobus.cdmx.gob.mx/portal-ciudadano/datos-abiertos",
+          "license": "Metrobus registration and dataset-specific terms",
+          "use": "Use only for Metrobus realtime coverage.",
+          "limits": "Do not apply Metrobus evidence to Metro, RTP, STE, or other operators."
+        },
+        {
+          "id": "cdmx-passenger-status",
+          "kinds": ["status", "traffic"],
+          "access": "web_only",
+          "format": "official operator/SSC pages",
+          "url": "https://www.metro.cdmx.gob.mx/la-red/estado-del-servicio",
+          "secondary_url": "https://metrobus.cdmx.gob.mx/ServicioMB",
+          "license": "Publisher terms",
+          "use": "Check exact operator service and current Orientador Vial notices.",
+          "limits": "INFOVIAL open data is historical (2016-2019) and must not be used as live traffic."
+        }
+      ],
+      "caveats": ["Realtime is partial and operator-specific; citywide live traffic is web/social only."]
+    },
+    {
+      "slug": "sydney",
+      "name": "Sydney",
+      "local_name": "Sydney",
+      "country": "Australia",
+      "country_code": "AU",
+      "timezone": "Australia/Sydney",
+      "region": "Asia-Pacific",
+      "coverage": "strong_with_registration",
+      "release_skill": "plan-smart-routes-sydney",
+      "provider_preferences": ["Transport for NSW", "Google Maps", "Apple Maps", "TripView"],
+      "sources": [
+        {
+          "id": "nsw-complete-gtfs",
+          "kinds": ["static_transit", "schedule"],
+          "access": "api_key",
+          "format": "GTFS",
+          "url": "https://opendata.transport.nsw.gov.au/data/dataset/timetables-complete-gtfs",
+          "license": "Creative Commons Attribution for the Complete GTFS dataset",
+          "use": "Use the clearly CC-labelled Complete GTFS baseline.",
+          "limits": "Some v2 subrecords say no licence; prefer the explicitly licensed Complete GTFS."
+        },
+        {
+          "id": "nsw-gtfs-realtime",
+          "kinds": ["trip_updates", "vehicle_positions", "alerts"],
+          "access": "api_key",
+          "format": "GTFS-Realtime",
+          "url": "https://opendata.transport.nsw.gov.au/dataset/public-transport-realtime-trip-update-v2",
+          "secondary_url": "https://opendata.transport.nsw.gov.au/developers/documentation",
+          "license": "Creative Commons Attribution plus portal API terms",
+          "use": "Use v2 for train, metro, and light rail where documented.",
+          "limits": "Free account/API token required; keep 10-15 second update cadence and payload time separate."
+        },
+        {
+          "id": "nsw-live-traffic",
+          "kinds": ["traffic", "road_closure", "flood", "roadworks"],
+          "access": "api_key",
+          "format": "GeoJSON",
+          "url": "https://opendata.transport.nsw.gov.au/data/dataset/live-traffic-hazards",
+          "license": "Creative Commons Attribution",
+          "use": "Spatially match current hazards to route corridors.",
+          "limits": "A token is required; without one use official passenger/Live Traffic web pages."
+        }
+      ],
+      "caveats": ["High-quality profile when a free Transport for NSW API token is configured; otherwise live automation is limited."]
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Skill — 香港"
+  short_description: "Official-source route planning for Hong Kong"
+  default_prompt: "Use $plan-smart-routes-hong-kong to plan my trip with current official checks and truthful map links."

@@ -1,0 +1,65 @@
+{
+  "slug": "tokyo",
+  "name": "Tokyo",
+  "local_name": "東京",
+  "country": "Japan",
+  "country_code": "JP",
+  "timezone": "Asia/Tokyo",
+  "region": "Asia-Pacific",
+  "coverage": "operator_partial",
+  "release_skill": "plan-smart-routes-tokyo",
+  "provider_preferences": [
+    "official operators",
+    "Google Maps",
+    "Apple Maps",
+    "Japan Transit Planner"
+  ],
+  "sources": [
+    {
+      "id": "odpt-gtfs",
+      "kinds": [
+        "static_transit",
+        "schedule"
+      ],
+      "access": "api_key",
+      "format": "GTFS",
+      "url": "https://ckan.odpt.org/en/dataset/train-tokyometro",
+      "secondary_url": "https://ckan.odpt.org/en/dataset/train-toei",
+      "license": "ODPT Basic License; Toei assets may be CC BY 4.0 with specified attribution",
+      "use": "Use Tokyo Metro and Toei operator baselines after ODPT registration.",
+      "limits": "This does not cover all JR/private operators in metropolitan Tokyo."
+    },
+    {
+      "id": "odpt-gtfs-rt",
+      "kinds": [
+        "trip_updates",
+        "vehicle_positions",
+        "alerts"
+      ],
+      "access": "api_key",
+      "format": "GTFS-Realtime",
+      "url": "https://ckan.odpt.org/en/dataset/r_train_gtfs_rt-odpt_train-toei",
+      "secondary_url": "https://ckan.odpt.org/en/dataset/r_train_gtfs_rt-odpt_train-tokyometro",
+      "license": "Dataset-specific ODPT/Toei licence and attribution",
+      "use": "Use only the entity types each operator actually publishes.",
+      "limits": "Tokyo Metro feed is Alert-only; Toei coverage is richer but still partial."
+    },
+    {
+      "id": "jartic",
+      "kinds": [
+        "traffic",
+        "road_closure"
+      ],
+      "access": "web_only",
+      "format": "official live map",
+      "url": "https://www.jartic.or.jp/",
+      "license": "JARTIC terms prohibit republishing live web content",
+      "use": "Use as a human-visible corridor traffic check and link to the official map.",
+      "limits": "Do not scrape or reproduce live map content."
+    }
+  ],
+  "caveats": [
+    "Coverage is partial; never label this as all-Tokyo realtime.",
+    "Prefer an exact operator status page when the trip uses a non-ODPT operator."
+  ]
+}

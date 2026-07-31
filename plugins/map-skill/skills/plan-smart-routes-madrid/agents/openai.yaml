@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Skill — Madrid"
+  short_description: "Official-source route planning for Madrid"
+  default_prompt: "Use $plan-smart-routes-madrid to plan my trip with current official checks and truthful map links."

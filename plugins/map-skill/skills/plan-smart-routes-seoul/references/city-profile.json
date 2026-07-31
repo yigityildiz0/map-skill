@@ -1,0 +1,66 @@
+{
+  "slug": "seoul",
+  "name": "Seoul",
+  "local_name": "서울",
+  "country": "South Korea",
+  "country_code": "KR",
+  "timezone": "Asia/Seoul",
+  "region": "Asia-Pacific",
+  "coverage": "city_partial",
+  "release_skill": "plan-smart-routes-seoul",
+  "provider_preferences": [
+    "Seoul Open Data",
+    "TOPIS",
+    "Naver Map",
+    "KakaoMap",
+    "Google Maps"
+  ],
+  "sources": [
+    {
+      "id": "seoul-transit-apis",
+      "kinds": [
+        "schedule",
+        "arrivals",
+        "bus_routes"
+      ],
+      "access": "api_key",
+      "format": "Seoul JSON/XML APIs",
+      "url": "https://data.seoul.go.kr/dataList/OA-12764/A/1/datasetView.do",
+      "secondary_url": "https://data.seoul.go.kr/dataList/OA-15346/F/1/datasetView.do",
+      "license": "KOGL Type 1 for cited datasets",
+      "use": "Use subway and bus realtime within documented Seoul coverage.",
+      "limits": "These are not GTFS/GTFS-Realtime; check recptnDt and city-boundary gaps."
+    },
+    {
+      "id": "topis",
+      "kinds": [
+        "traffic",
+        "road_closure",
+        "events"
+      ],
+      "access": "registration",
+      "format": "TOPIS API and official web",
+      "url": "https://topis.seoul.go.kr/",
+      "secondary_url": "https://topis.seoul.go.kr/refRoom/openRefRoom_4.do",
+      "license": "TOPIS API page limits use to non-profit purposes; apply the stricter term",
+      "use": "Use current traffic speed and incidents when terms and credentials permit.",
+      "limits": "Do not bundle/cache restricted TOPIS payloads in the repository."
+    },
+    {
+      "id": "seoul-metro-status",
+      "kinds": [
+        "status"
+      ],
+      "access": "web_only",
+      "format": "official passenger view",
+      "url": "https://smss.seoulmetro.co.kr/traininfo/traininfoUserView.do",
+      "license": "Publisher terms",
+      "use": "Cross-check current train operation.",
+      "limits": "Detailed status is primarily Korean and does not cover every metropolitan operator."
+    }
+  ],
+  "caveats": [
+    "No verified official citywide GTFS feed.",
+    "Seoul APIs may omit sections outside the city boundary."
+  ]
+}

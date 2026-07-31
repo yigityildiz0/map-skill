@@ -1,0 +1,10 @@
+dist/
+build/
+__pycache__/
+*.py[cod]
+*.tmp
+.DS_Store
+Thumbs.db
+.pytest_cache/
+*.user.json
+trip-preferences.json

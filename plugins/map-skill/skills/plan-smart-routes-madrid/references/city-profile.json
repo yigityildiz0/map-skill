@@ -1,0 +1,61 @@
+{
+  "slug": "madrid",
+  "name": "Madrid",
+  "local_name": "Madrid",
+  "country": "Spain",
+  "country_code": "ES",
+  "timezone": "Europe/Madrid",
+  "region": "Europe",
+  "coverage": "hybrid",
+  "release_skill": "plan-smart-routes-madrid",
+  "provider_preferences": [
+    "CRTM",
+    "EMT Madrid",
+    "Google Maps",
+    "Moovit"
+  ],
+  "sources": [
+    {
+      "id": "crtm-open-data",
+      "kinds": [
+        "static_transit",
+        "schedule"
+      ],
+      "access": "no_key",
+      "format": "GTFS/SHP/KML/CSV",
+      "url": "https://transparencia.crtm.es/presupuestos-contratos-y-gastos/datos-abiertos/?lang=es",
+      "license": "CRTM LDA; retain metadata and linked Powered by CRTM attribution",
+      "use": "Use the regional schedule baseline.",
+      "limits": "Realtime coverage is not citywide."
+    },
+    {
+      "id": "emt-madrid-live",
+      "kinds": [
+        "arrivals",
+        "alerts"
+      ],
+      "access": "api_key",
+      "format": "EMT API and Protobuf alerts",
+      "url": "https://datos.emtmadrid.es/es/dataset/tiempo-real-para-autobuses-de-emt",
+      "license": "EMT terms",
+      "use": "Use only for EMT city-bus realtime when credentials exist.",
+      "limits": "Do not extend EMT evidence to Metro, Cercanias, or interurban services."
+    },
+    {
+      "id": "dgt-incidents",
+      "kinds": [
+        "traffic",
+        "road_closure"
+      ],
+      "access": "no_key",
+      "format": "DATEX II",
+      "url": "https://nap.dgt.es/es/dataset/incidencias-dgt-datex2-v3-7",
+      "license": "CC BY",
+      "use": "Use current road incidents and corridor controls.",
+      "limits": "Match incidents spatially; do not apply regional events to every route."
+    }
+  ],
+  "caveats": [
+    "Use CRTM passenger alerts to cover Metro/Cercanias/interurban gaps."
+  ]
+}

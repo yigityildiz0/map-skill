@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Skill — Paris / Île-de-France"
+  short_description: "Official-source route planning for Paris / Ile-de-France"
+  default_prompt: "Use $plan-smart-routes-paris to plan my trip with current official checks and truthful map links."

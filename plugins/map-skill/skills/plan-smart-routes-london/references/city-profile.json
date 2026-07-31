@@ -1,0 +1,66 @@
+{
+  "slug": "london",
+  "name": "London",
+  "local_name": "London",
+  "country": "United Kingdom",
+  "country_code": "GB",
+  "timezone": "Europe/London",
+  "region": "Europe",
+  "coverage": "strong_with_registration",
+  "release_skill": "plan-smart-routes-london",
+  "provider_preferences": [
+    "TfL",
+    "Citymapper",
+    "Google Maps",
+    "Apple Maps"
+  ],
+  "sources": [
+    {
+      "id": "tfl-open-data",
+      "kinds": [
+        "static_transit",
+        "schedule"
+      ],
+      "access": "registration",
+      "format": "TfL feeds",
+      "url": "https://tfl.gov.uk/info-for/open-data-users/our-open-data",
+      "license": "Open Government Licence v3 plus TfL attribution and trademark rules",
+      "use": "Use TfL's current timetable/network feeds as the official baseline.",
+      "limits": "TfL does not publish one complete citywide GTFS equivalent for every mode."
+    },
+    {
+      "id": "tfl-unified-api",
+      "kinds": [
+        "arrivals",
+        "status",
+        "alerts",
+        "journey_planner"
+      ],
+      "access": "api_key",
+      "format": "JSON API",
+      "url": "https://tfl.gov.uk/info-for/open-data-users/unified-api",
+      "license": "Open Government Licence v3 plus TfL conditions",
+      "use": "Use arrivals, line status, disruptions, and official journey planning when credentials exist.",
+      "limits": "Some arrival observations can be stale after roughly 30 seconds; keep timestamps."
+    },
+    {
+      "id": "tfl-traffic",
+      "kinds": [
+        "traffic",
+        "road_closure",
+        "events"
+      ],
+      "access": "web_only",
+      "format": "official live status",
+      "url": "https://tfl.gov.uk/traffic/status",
+      "secondary_url": "https://tfl.gov.uk/status-updates/major-works-and-events",
+      "license": "TfL website terms",
+      "use": "Validate current corridor incidents, works, and large events.",
+      "limits": "TfL road coverage is not uniform across every borough road."
+    }
+  ],
+  "caveats": [
+    "No key means official web checks only for live data.",
+    "Always keep TfL source and payload timestamps."
+  ]
+}

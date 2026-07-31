@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Skill — Ciudad de Mexico"
+  short_description: "Official-source route planning for Mexico City"
+  default_prompt: "Use $plan-smart-routes-mexico-city to plan my trip with current official checks and truthful map links."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Skill — Berlin / Brandenburg"
+  short_description: "Official-source route planning for Berlin / Brandenburg"
+  default_prompt: "Use $plan-smart-routes-berlin to plan my trip with current official checks and truthful map links."

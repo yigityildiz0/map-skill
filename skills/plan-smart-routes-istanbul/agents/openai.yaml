@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Skill — İstanbul"
+  short_description: "İBB/IETT verileriyle İstanbul rotaları"
+  default_prompt: "Use $plan-smart-routes-istanbul to plan my Istanbul trip with official live checks, an ETA range, and valid map links."

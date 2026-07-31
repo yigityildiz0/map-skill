@@ -1,0 +1,62 @@
+{
+  "slug": "berlin",
+  "name": "Berlin / Brandenburg",
+  "local_name": "Berlin / Brandenburg",
+  "country": "Germany",
+  "country_code": "DE",
+  "timezone": "Europe/Berlin",
+  "region": "Europe",
+  "coverage": "strong_but_realtime_degraded",
+  "release_skill": "plan-smart-routes-berlin",
+  "provider_preferences": [
+    "VBB",
+    "BVG",
+    "Google Maps",
+    "Apple Maps"
+  ],
+  "sources": [
+    {
+      "id": "vbb-gtfs",
+      "kinds": [
+        "static_transit",
+        "schedule"
+      ],
+      "access": "no_key",
+      "format": "GTFS",
+      "url": "https://unternehmen.vbb.de/digitale-services/datensaetze/",
+      "license": "CC BY 4.0",
+      "use": "Use the official VBB schedule baseline.",
+      "limits": "Retain feed date/hash and validate calendar exceptions."
+    },
+    {
+      "id": "vbb-gtfs-rt",
+      "kinds": [
+        "trip_updates",
+        "vehicle_positions",
+        "alerts"
+      ],
+      "access": "no_key",
+      "format": "GTFS-Realtime",
+      "url": "https://production.gtfsrt.vbb.de/data",
+      "license": "CC BY 4.0",
+      "use": "Use as realtime evidence only when fresh and coverage is intact.",
+      "limits": "Official page reports data loss/incomplete coverage since 2026-06-04; cross-check VBB/operator alerts."
+    },
+    {
+      "id": "viz-berlin",
+      "kinds": [
+        "traffic",
+        "road_closure"
+      ],
+      "access": "web_only",
+      "format": "official live map",
+      "url": "https://viz.berlin.de/",
+      "license": "Archive datasets may be dl-de/by-2.0; live map terms differ",
+      "use": "Validate current traffic and closures visually.",
+      "limits": "Traffic-detection archives are not a live route ETA source."
+    }
+  ],
+  "caveats": [
+    "Static coverage is strong but current GTFS-RT confidence is reduced until VBB's data-loss notice clears."
+  ]
+}

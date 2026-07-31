@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Skill — Singapore"
+  short_description: "Official-source route planning for Singapore"
+  default_prompt: "Use $plan-smart-routes-singapore to plan my trip with current official checks and truthful map links."

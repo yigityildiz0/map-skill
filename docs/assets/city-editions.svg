@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="700" viewBox="0 0 1440 700" role="img" aria-labelledby="title desc">
+  <title id="title">Map Skill city editions</title>
+  <desc id="desc">Sixteen official-source profiles grouped into Europe, Asia-Pacific, and the Americas, with Istanbul highlighted.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07192e"/><stop offset="1" stop-color="#102d48"/></linearGradient>
+    <style>
+      .t{font-family:system-ui,Segoe UI,sans-serif;fill:#f5fbff}.h{font-size:34px;font-weight:750}.s{font-size:17px;fill:#b9ccda}.rh{font-size:21px;font-weight:700;fill:#65e9dd}.c{font-size:17px;font-weight:620}.tag{font-size:12px;font-weight:700;letter-spacing:.6px}.card{fill:#0d314d;stroke:#2b6681;stroke-width:1.5}.featured{fill:#442a34;stroke:#ff8c78;stroke-width:2}.pill1{fill:#0d514d}.pill2{fill:#524525}.pill3{fill:#513444}.line{stroke:#2e5b73;stroke-width:1}
+    </style>
+  </defs>
+  <rect width="1440" height="700" rx="24" fill="url(#bg)"/>
+  <text x="68" y="70" class="t h">16 city editions · one universal reasoning core</text>
+  <text x="68" y="104" class="t s">Each profile records official feeds, access requirements, licence, freshness, coverage gaps, and fallback rules.</text>
+
+  <g transform="translate(68 145)">
+    <text x="0" y="0" class="t rh">EUROPE</text>
+    <rect x="0" y="25" width="405" height="66" rx="14" class="featured"/>
+    <text x="22" y="56" class="t c">İstanbul · Türkiye</text><text x="22" y="78" class="t tag" fill="#ffb3a5">ENHANCED OFFICIAL ADAPTER</text>
+    <rect x="0" y="103" width="405" height="54" rx="12" class="card"/><text x="22" y="137" class="t c">London · United Kingdom</text>
+    <rect x="0" y="169" width="405" height="54" rx="12" class="card"/><text x="22" y="203" class="t c">Paris / Île-de-France · France</text>
+    <rect x="0" y="235" width="405" height="54" rx="12" class="card"/><text x="22" y="269" class="t c">Berlin / Brandenburg · Germany</text>
+    <rect x="0" y="301" width="405" height="54" rx="12" class="card"/><text x="22" y="335" class="t c">Dublin · Ireland</text>
+    <rect x="0" y="367" width="405" height="54" rx="12" class="card"/><text x="22" y="401" class="t c">Milano · Italy</text>
+    <rect x="0" y="433" width="405" height="54" rx="12" class="card"/><text x="22" y="467" class="t c">Madrid · Spain</text>
+
+    <text x="465" y="0" class="t rh">ASIA-PACIFIC</text>
+    <rect x="465" y="25" width="405" height="54" rx="12" class="card"/><text x="487" y="59" class="t c">Tokyo · Japan</text>
+    <rect x="465" y="91" width="405" height="54" rx="12" class="card"/><text x="487" y="125" class="t c">Seoul · South Korea</text>
+    <rect x="465" y="157" width="405" height="54" rx="12" class="card"/><text x="487" y="191" class="t c">Singapore</text>
+    <rect x="465" y="223" width="405" height="54" rx="12" class="card"/><text x="487" y="257" class="t c">Hong Kong</text>
+    <rect x="465" y="289" width="405" height="54" rx="12" class="card"/><text x="487" y="323" class="t c">Sydney · Australia</text>
+
+    <text x="930" y="0" class="t rh">AMERICAS</text>
+    <rect x="930" y="25" width="405" height="54" rx="12" class="card"/><text x="952" y="59" class="t c">Toronto · Canada</text>
+    <rect x="930" y="91" width="405" height="54" rx="12" class="card"/><text x="952" y="125" class="t c">New York City · USA</text>
+    <rect x="930" y="157" width="405" height="54" rx="12" class="card"/><text x="952" y="191" class="t c">Chicago · USA</text>
+    <rect x="930" y="223" width="405" height="54" rx="12" class="card"/><text x="952" y="257" class="t c">Mexico City · Mexico</text>
+
+    <line x1="465" x2="870" y1="385" y2="385" class="line"/>
+    <text x="465" y="420" class="t s">Coverage labels are honest, not marketing:</text>
+    <rect x="465" y="442" width="118" height="30" rx="15" class="pill1"/><text x="484" y="462" class="t tag">NO-KEY STRONG</text>
+    <rect x="595" y="442" width="144" height="30" rx="15" class="pill2"/><text x="614" y="462" class="t tag">KEY / REGISTER</text>
+    <rect x="751" y="442" width="119" height="30" rx="15" class="pill3"/><text x="772" y="462" class="t tag">PARTIAL / WEB</text>
+
+    <text x="930" y="330" class="t s">Universal still works elsewhere:</text>
+    <text x="930" y="358" class="t c">official operator + map providers</text>
+    <text x="930" y="386" class="t c">+ current web research + honest uncertainty</text>
+  </g>
+  <text x="68" y="655" class="t s">Profiles were verified 2026-07-31. Feeds change: recheck source health and publisher terms before each consequential trip.</text>
+</svg>

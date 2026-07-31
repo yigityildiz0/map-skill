@@ -1,0 +1,66 @@
+{
+  "slug": "singapore",
+  "name": "Singapore",
+  "local_name": "Singapore",
+  "country": "Singapore",
+  "country_code": "SG",
+  "timezone": "Asia/Singapore",
+  "region": "Asia-Pacific",
+  "coverage": "bus_strong_rail_partial",
+  "release_skill": "plan-smart-routes-singapore",
+  "provider_preferences": [
+    "LTA / MyTransport.SG",
+    "Google Maps",
+    "Apple Maps",
+    "Moovit"
+  ],
+  "sources": [
+    {
+      "id": "lta-datamall-transit",
+      "kinds": [
+        "bus_routes",
+        "schedule",
+        "bus_arrivals",
+        "rail_alerts",
+        "crowding"
+      ],
+      "access": "api_key",
+      "format": "LTA DataMall JSON",
+      "url": "https://datamall.lta.gov.sg/content/datamall/en/dynamic-data.html",
+      "license": "Singapore Open Data Licence plus DataMall API terms and attribution",
+      "use": "Use bus network/ETA and rail alerts when an AccountKey is configured.",
+      "limits": "No complete public MRT timetable or next-train API; do not invent rail ETA."
+    },
+    {
+      "id": "lta-traffic",
+      "kinds": [
+        "traffic",
+        "road_closure",
+        "roadworks"
+      ],
+      "access": "api_key",
+      "format": "LTA DataMall JSON",
+      "url": "https://datamall.lta.gov.sg/content/datamall/en/dynamic-data.html",
+      "license": "Singapore Open Data Licence plus API terms",
+      "use": "Use incidents, speed bands, roadworks, and VMS data.",
+      "limits": "Keep AccountKey secret and respect published limits."
+    },
+    {
+      "id": "singapore-passenger-status",
+      "kinds": [
+        "rail_status",
+        "road_closure"
+      ],
+      "access": "web_only",
+      "format": "official passenger pages",
+      "url": "https://mytransport.sg/trainstatus",
+      "secondary_url": "https://onemotoring.lta.gov.sg/content/onemotoring/home/driving/traffic_information/traffic_updates_and_road_closures.html",
+      "license": "Publisher terms",
+      "use": "No-key human verification for rail status and road closures.",
+      "limits": "Do not represent passenger pages as machine feeds."
+    }
+  ],
+  "caveats": [
+    "Bus and traffic evidence can be high-confidence with a key; rail ETA remains planner/status based."
+  ]
+}

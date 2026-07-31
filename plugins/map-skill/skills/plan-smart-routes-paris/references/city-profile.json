@@ -1,0 +1,64 @@
+{
+  "slug": "paris",
+  "name": "Paris / Ile-de-France",
+  "local_name": "Paris / Île-de-France",
+  "country": "France",
+  "country_code": "FR",
+  "timezone": "Europe/Paris",
+  "region": "Europe",
+  "coverage": "strong_with_registration",
+  "release_skill": "plan-smart-routes-paris",
+  "provider_preferences": [
+    "Ile-de-France Mobilites",
+    "Citymapper",
+    "Google Maps",
+    "Apple Maps"
+  ],
+  "sources": [
+    {
+      "id": "idfm-gtfs",
+      "kinds": [
+        "static_transit",
+        "schedule"
+      ],
+      "access": "registration",
+      "format": "GTFS",
+      "url": "https://prim.iledefrance-mobilites.fr/jeux-de-donnees/offre-horaires-tc-gtfs-idfm",
+      "license": "Licence Mobilite",
+      "use": "Official all-operator baseline with a rolling timetable horizon.",
+      "limits": "Validate feed horizon and service date on every build."
+    },
+    {
+      "id": "idfm-siri",
+      "kinds": [
+        "arrivals",
+        "alerts"
+      ],
+      "access": "api_key",
+      "format": "SIRI Lite",
+      "url": "https://prim.iledefrance-mobilites.fr/fr/apis/idfm-ivtr-requete_ligne",
+      "secondary_url": "https://prim.iledefrance-mobilites.fr/fr/apis/idfm-ivtr-info_trafic",
+      "license": "Licence Mobilite",
+      "use": "Use next passages and traffic information for covered operators/lines.",
+      "limits": "Realtime does not cover every line; check the official coverage list."
+    },
+    {
+      "id": "paris-road-status",
+      "kinds": [
+        "traffic",
+        "road_closure"
+      ],
+      "access": "web_only",
+      "format": "official maps/pages",
+      "url": "https://www2.sytadin.fr/",
+      "secondary_url": "https://www.paris.fr/pages/travaux-trafic-fermetures-41/",
+      "license": "Publisher terms; do not republish live-map content",
+      "use": "Check live regional traffic and planned Paris street closures.",
+      "limits": "Summarize and link rather than copying live-map content."
+    }
+  ],
+  "caveats": [
+    "No realtime record is no_data, not proof of normal service.",
+    "Check the PRIM realtime coverage list before raising confidence."
+  ]
+}
