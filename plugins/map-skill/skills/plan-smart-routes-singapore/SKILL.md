@@ -3,222 +3,182 @@ name: plan-smart-routes-singapore
 description: Plan and compare reliable Singapore trips with public transport plus walking by default, official local transit and traffic checks, weather, opening hours, fares, multi-stop scheduling, ETA uncertainty, and valid navigation links. Use for any route, ETA, arrival/departure, or multi-stop request whose origin, destination, or leg is in Singapore.
 ---
 
-# Plan Smart Routes — Singapore
+# Plan Smart Routes
 
-## City Edition
+## Purpose
 
-This edition specializes the universal workflow for **Singapore (Singapore)**. Read `references/city-profile.json` for every in-scope trip. Use only sources whose access requirements are satisfied, preserve their coverage gaps, and fall back to the universal source plan outside the documented area.
+Produce a short, usable trip answer backed by current evidence. Analyze broadly, answer compactly. Never turn a generated map link, a static schedule, or an unavailable provider into a claimed live route.
 
-## Mission
+Default to **public transport + necessary walking**, prefer rail/metro over road buses when otherwise comparable, and use driving, cycling, or walking-only only when the user asks or clearly implies it.
 
-Return a compact trip plan backed by current evidence. Research broadly; answer briefly. Never present a generated map link, a static timetable, or an inaccessible provider as a live route result.
+## Load the Right References
 
-Reply in the user's language. Default to **public transport plus necessary walking**. Prefer rail/metro over road buses when reliability and total cost are otherwise comparable. Use driving, cycling, or walking-only only when requested or clearly implied.
+- Read [intake-and-output.md](references/intake-and-output.md) for every trip request.
+- Read [route-synthesis.md](references/route-synthesis.md) whenever comparing, timing, scoring, costing, or scheduling routes.
+- Read [provider-capabilities.md](references/provider-capabilities.md) before retrieving provider alternatives or generating navigation links.
+- Read [istanbul-sources.md](references/istanbul-sources.md) whenever any leg is in İstanbul.
+- Read [open-data-stack.md](references/open-data-stack.md) for GTFS, GTFS-Realtime, OpenTripPlanner, geocoding, OpenStreetMap, or technical integration questions.
 
-This skill works without paid APIs. Optional provider APIs may improve results when the environment already has valid credentials, but never ask the user to buy access and never claim an API ran when it did not.
+## End-to-End Workflow
 
-## Load Only the Needed References
+### 1. Parse the request into time blocks
 
-- Read [intake-and-output.md](references/intake-and-output.md) for every trip.
-- Read [route-synthesis.md](references/route-synthesis.md) when comparing, timing, scoring, costing, or scheduling routes.
-- Read [provider-capabilities.md](references/provider-capabilities.md) before provider research or link generation.
-- Read [tool-contracts.md](references/tool-contracts.md) before mapping requested capability names to available tools/scripts.
-- Read [city-source-registry.json](references/city-source-registry.json) and the matching file under `references/cities/` when a supported city is involved.
-- Read [open-data-stack.md](references/open-data-stack.md) for GTFS, GTFS-Realtime, OpenTripPlanner, OpenStreetMap, geocoding, or self-hosting questions.
-
-## Workflow
-
-### 1. Split the request into time blocks
-
-Extract for each continuous block:
+Extract:
 
 - origin, destination, ordered or reorderable intermediate stops;
-- trip date and **depart at** versus **arrive by** semantics;
-- mode and constraints: rail-first, few transfers, little walking, accessibility, luggage, bike, car;
+- travel date and whether the stated time means **depart at** or **arrive by**;
+- mode and constraints: metro-heavy, few transfers, little walking, wheelchair access, luggage, bike, car;
 - intent: urgent, balanced, comfortable, or leisure;
-- dwell time, appointments, venue closing/last-entry time, companions, and fare/pass profile;
-- map URLs, place names, coordinates, entrances, and locality.
+- dwell time, appointments, venue closing times, companions, and fare/pass profile;
+- shared map URLs and coordinates.
 
-A long visit, appointment, or jump from morning to evening starts a new block. Preserve the order of explicit stops unless the user permits reordering.
+A long visit, an appointment, or a jump from morning to evening starts a new time block. Plan each block separately. Preserve ordered stops within each continuous block.
 
-### 2. Ask once for missing essentials
+### 2. Stop on missing essentials
 
-Do not calculate a block until these are known:
+Do not calculate a route until the following are known for the relevant block:
 
 1. origin;
 2. destination;
 3. date;
 4. departure time or required arrival time.
 
-“Now” supplies the local date and departure time. If device location is unavailable, ask for an exact origin or nearby landmark. If a stop is followed by a deadline, its dwell time or latest leave time is also essential. Do not invent visit duration.
+For a visited intermediate stop before another deadline, its dwell time or latest leave time is also essential. Do not invent a visit duration.
 
-Ask one short question containing only missing fields. If a place is ambiguous, show at most three concrete candidates. A broad district alone is not precise enough for a dependable ETA or navigation link; ask for a station, entrance, address, landmark, or pin when that distinction matters.
+“Şimdi” supplies date and departure time. If device location is unavailable, say so and ask for the exact origin or a nearby landmark. Ask one short question containing only the missing fields. If a place is ambiguous, give at most three concrete candidates and ask the user to select one. Do not silently choose a similarly named branch or district.
 
-Do not ask for travel mode or intent when absent: use transit+walking and balanced ranking.
+If wording such as “09:00’da gideceğim/geçeceğim” could mean departure or arrival and the distinction changes the plan, ask. Do not replace clarification with “şöyle varsaydım.”
 
-### 3. Resolve places before routing
+A large district/neighborhood name alone is not exact enough for an ETA or navigation link. Ask for a square, stop, address, entrance, or pin in the same first question as the missing time fields when it could change the route.
 
-Treat any shared Google, Yandex, Apple, Bing, HERE, Waze, Moovit, Citymapper, or OSM link as a location reference—not a command to use only that provider. Follow supported redirects, extract explicit coordinates/labels, and cross-check the same place or branch in other accessible products and first-party venue pages.
+### 3. Resolve locations before routing
 
-Prefer, in order: user coordinates/pin; resolved map link; official venue/operator page; accessible human-facing map search; an already configured geocoder. Do not silently substitute a similarly named branch or entrance.
+Follow redirects on shared map links and extract place identity, coordinates, branch, entrance, and locality when accessible. A Google link is a location reference, not a command to use only Google. Cross-check the same coordinates/name in other available providers and official venue sources.
 
-Use the bounded resolver for supported URLs:
+Prefer explicit coordinates, a shared map pin, or a verified place page. Do not embed the public Nominatim service as a generic automatic geocoder. A route request authorizes the necessary read-only lookups for places supplied in that request, but not persistence. Minimize broad provider fan-out for sensitive exact home/work/medical locations and ask before sending them beyond the providers needed for the answer.
+
+For a supported map URL, safely follow provider redirects and extract only explicit coordinates:
 
 ```powershell
 python scripts/map_link_resolver.py "https://maps.app.goo.gl/..."
 ```
 
-This resolves links; it is not generic place-name geocoding. Do not embed the public Nominatim service as an automated LLM geocoder.
+This is URL resolution, not place-name geocoding. Verify the returned branch/entrance in the human-visible page.
 
-### 4. Select the city profile and source plan
+### 4. Infer the profile without unnecessary questions
 
-Match the trip to a profile in `references/city-source-registry.json`. A profile adds official local sources and limitations; it never replaces the universal workflow.
+- **urgent**: work, school, internship, exam, flight, appointment, “yetişmem lazım”, or a hard deadline;
+- **comfortable**: less walking, fewer transfers, luggage, accessibility, or comfort request;
+- **leisure**: sightseeing, scenic, relaxed, no deadline;
+- **balanced**: otherwise.
 
-For every source distinguish:
+When no preference is given, rank all candidates using balanced logic and return the recommended route plus at most two materially different alternatives such as ⚡ faster or 😌 fewer transfers. Do not ask the user to choose a profile first.
 
-- `no_key`: machine-readable and usable without credentials;
-- `registration` or `api_key`: usable only when credentials are already configured;
-- `web_only`: human-visible official check; do not scrape or claim machine retrieval;
-- `self_hosted`: free software that still needs local infrastructure;
-- `unavailable`: inaccessible or outside coverage.
+### 5. Gather all practical candidates
 
-Store source observation time, payload time when supplied, freshness, coverage, licence/attribution, and failure status. `no_data` is not `no_service`.
+Search every visible alternative in accessible Google Maps, Yandex Maps, Moovit, official operator planners, and useful regional providers—not just each product’s first suggestion. Add HERE, Bing, Apple Maps, Waze, Citymapper, OpenStreetMap, or a local OpenTripPlanner only where their documented coverage and mode fit.
 
-If no city profile matches, use official operator journey planners/status pages, accessible provider products, current web research, and the universal open-data rules. State that local realtime coverage is unknown or partial rather than downgrading silently.
+For every candidate record provider, observed time, route/line sequence, duration, walking, transfers, fare evidence, realtime/static status, and source URL. Mark provider failure as `no_data`; use `no_route` only when the provider actually reports no route. Never infer route results from deep-link generation.
 
-### 5. Gather every practical candidate
-
-Search all visible alternatives—not merely the first—across accessible Google Maps, Yandex Maps, Moovit, local operator planners, and relevant regional providers. Add HERE, Bing, Apple Maps, Waze, Citymapper, OpenStreetMap, or a local OpenTripPlanner only where mode and coverage fit.
-
-For each candidate capture:
-
-- provider/source URL and observation time;
-- route/line/stop sequence and direction;
-- scheduled and predicted duration/arrival;
-- walking, wait, transfers, and exposed segments;
-- service-date validity, accessibility, fare evidence, and alert state;
-- realtime/static/unknown status and raw confidence factors.
-
-Paid/keyed Google Routes, Yandex routing/matrix, and Moovit APIs are optional adapters. Without credentials, use accessible product pages, official transport data, and no-key deep links. Creating a deep link is never evidence that a route or ETA was retrieved.
+Paid/keyed Google Routes, Yandex routing/matrix, or Moovit APIs are optional adapters only. Without configured credentials, use accessible product pages, official operator data, and no-key navigation links; never pretend the APIs ran.
 
 ### 6. Normalize, deduplicate, and hard-filter
 
-Merge candidates with the same material line/stop sequence while preserving each provider prediction and source. Reject a candidate before scoring when it is cancelled, inactive on the service date, impossible under a stated accessibility need, outside an opening/deadline window, or contains an infeasible transfer.
+Merge candidates with the same material line/stop sequence while preserving every provider’s ETA and evidence. Reject before scoring when a route is cancelled, inactive on that service date, inaccessible under a stated need, misses a hard arrival/opening window, or has an impossible transfer.
+
+Use the local helper after collecting candidates:
 
 ```powershell
 python scripts/route_toolkit.py score --input routes.json --profile balanced
 ```
 
-Do not fill missing metrics with invented observations. Duration is a minimum evidence gate; other missing metrics remain explicit and receive only the documented conservative **scoring penalty**, with evidence completeness shown separately from route performance.
+The input schema and scoring rules are in [route-synthesis.md](references/route-synthesis.md). Missing soft metrics are omitted and weights rebalanced; they are never filled with invented values.
 
-### 7. Check current conditions twice
+### 7. Validate live conditions twice
 
-Check once before scoring and recheck the selected route immediately before answering:
+First check before scoring, then recheck the selected route immediately before answering:
 
-- exact line, station, stop, ferry, and transfer alerts;
-- cancellations, short turns, frozen/changed service, replacement or extra event service;
-- traffic, road closures, construction, demonstrations, matches, concerts, and large events;
-- weather at origin, exposed transfers, and destination near travel time;
-- opening hours, holidays, and last entry;
-- current fares and rider rules only when relevant.
+- exact transit line, station, stop, ferry, and transfer alerts;
+- cancellations, short turns, frozen/changed services, extra event service;
+- road closures, traffic, matches, demonstrations, construction, and large events;
+- weather at origin, exposed transfer points, and destination near travel time;
+- venue opening hours and last-entry constraints;
+- current fare rules relevant to the actual modes and rider.
 
-Official operator/current feeds outrank third-party planners. Realtime absence means “no realtime data,” not “on time.” For future trips outside the feed/forecast horizon, give a schedule-based plan and a precise recheck time.
+Official operator/current feeds outrank third-party planners. Record source and observation time. Realtime absence means “no realtime data,” not “on time.” If the trip is outside a forecast/realtime horizon, provide a schedule-only plan and say to recheck near departure.
 
-For weather after coordinates are verified:
+For İstanbul, run the bounded official signal helper when relevant:
 
 ```powershell
-python scripts/route_toolkit.py weather --point "51.5074,-0.1278|Origin" --point "51.5155,-0.0922|Destination" --at "2026-08-01T09:00:00+01:00"
+python scripts/istanbul_live.py --line M2 --line M7 --bus-line 34AS
 ```
 
-### 8. Compare ETA evidence conservatively
+Add `--include-fares` only when a fare answer is needed. A citywide traffic index is context, not a route-segment ETA.
 
-Treat provider estimates as correlated observations, not independent votes. Prefer direct, fresh operator predictions and historical calibration where available. Compare recorded predictions with:
+For personal, non-commercial weather sampling with verified coordinates:
+
+```powershell
+python scripts/route_toolkit.py weather --point "41.0082,28.9784|Başlangıç" --point "41.0422,29.0083|Hedef" --at "2026-08-01T09:00:00+03:00"
+```
+
+### 8. Compare ETAs conservatively
+
+Use provider predictions as correlated observations, not independent votes. Prefer direct fresh operator realtime and historical calibration when available. Report a planning range and buffer, never “kesin şu dakikada varırsın.” Show confidence as high/medium/low/unknown with one reason.
+
+The helper can compare collected estimates:
 
 ```powershell
 python scripts/route_toolkit.py compare --input predictions.json
 ```
 
-Report a planning range, explicit safety buffer, and confidence `high`, `medium`, `low`, or `unknown` with one short reason. Never promise exact arrival.
+For urgent trips, work backward from the required arrival time using the conservative upper duration, transfer risk, entry/walk time, and an explicit safety buffer.
 
-For urgent trips, work backward from the arrival deadline using a conservative upper duration plus entrance/walking, transfer uncertainty, event/traffic risk, and a safety buffer. A citywide traffic index is context only; it is not a segment-level bus ETA.
+### 9. Optimize stops and opening windows
 
-### 9. Optimize multi-stop plans honestly
-
-For reorderable stops, first obtain a time-dependent travel matrix from actual candidates. Then run:
+For reorderable stops, obtain a time-dependent travel matrix from real candidates first. Then use:
 
 ```powershell
 python scripts/route_toolkit.py optimize --input day-plan.json
 ```
 
-The helper explores at most eight supplied stops and never fetches or invents a matrix. Recompute each transit leg at its real departure time; a road-only TSP is not a public-transport day plan.
+The helper explores at most eight stops and only supplied travel times. It does not fetch or invent a matrix. For transit, a road-only TSP is not valid; recompute each leg for its actual departure time.
 
-Warn with ⚠️ when a venue will be closed, a connection/window is infeasible, or the latest viable departure has passed. Suggest the smallest useful change.
+Warn with ⚠️ when a venue will be closed, the arrival window cannot be met, or the latest feasible departure has passed. Suggest the smallest useful change, such as leaving earlier or changing stop order.
 
-### 10. Generate capability-aware links
+### 10. Generate only truthful navigation links
 
-Generate links only after selecting the route and resolving every point:
+Generate links after route selection and place resolution:
 
 ```powershell
-python scripts/route_toolkit.py links --origin "51.5074,-0.1278|Origin" --waypoint "51.5133,-0.0890|Stop" --destination "51.5155,-0.0922|Destination" --mode transit --when "2026-08-01T09:00:00+01:00"
+python scripts/route_toolkit.py links --origin "41.0082,28.9784|Başlangıç" --waypoint "41.0256,28.9741|Durak" --destination "41.0422,29.0083|Hedef" --mode transit --when "2026-08-01T09:00:00+03:00"
 ```
 
-Return only providers whose documented link can encode the required points and mode and whose geographic coverage is plausible. Do not claim a link preserves time, waypoints, or exact line choice when its schema does not.
+Return only providers whose links encode the required points/mode and are plausibly available in that geography. A continuous block may be one Google/HERE/Bing multi-stop link where supported. Separate morning/evening blocks require separate links because one deep link cannot preserve independent appointment times. Explain this in one short sentence, not by fabricating a single timed link.
 
-A continuous A→B→C block may use one multi-stop link where supported. Separate morning/evening blocks require separate links because a deep link cannot preserve independent appointment clocks.
+### 11. Handle fares narrowly
 
-### 11. Handle profile, fare, and companions narrowly
+By default calculate only the user’s cost. Mention companions only when the user mentions them; calculate each fare class separately. If known, show pass/abonman usage and pay-as-you-go/student cost. Verify transfer, distance-based, refund, special-line, night, ferry, Marmaray, and Metrobüs rules before totaling. If the fare profile or source is missing, ask only when cost is material; otherwise omit the number rather than guessing.
 
-Infer without asking:
+### 12. Save preferences only with consent
 
-- **urgent**: work, school, internship, exam, flight, appointment, hard deadline;
-- **comfortable**: little walking, few transfers, luggage, child, accessibility;
-- **leisure**: sightseeing, scenic, relaxed, no deadline;
-- **balanced**: otherwise.
-
-When no preference is stated, return the recommendation plus at most two materially different alternatives such as ⚡ faster and 😌 fewer transfers.
-
-By default calculate only the user's fare. Include companions only when mentioned. Separate pass/abonman usage from pay-as-you-go currency. Verify distance fares, refunds, caps, transfers, special services, ferries, night fares, and concession rules; otherwise omit the number rather than guessing.
-
-### 12. Persist only with explicit consent
-
-Reading local preferences is safe:
+Reading preferences is safe:
 
 ```powershell
 python scripts/route_toolkit.py preferences show
 ```
 
-Writing requires explicit consent and `--allow-write`. Exact home/work labels or coordinates require the additional `--allow-sensitive`. Never save a one-off route automatically.
+Writing requires explicit user approval and `--allow-write`. Exact home/work labels or coordinates also require `--allow-sensitive`. Never save a one-off route automatically.
 
-## Compact Answer Contract
-
-Normally return:
-
-```text
-✅ Recommended — leave 08:05
-Metro A → transfer → Bus 24 → 7 min walk | 42–55 min | 1 transfer
-🎯 Arrival 08:47–09:00 | 10 min buffer | Confidence: Medium
-⚠️ One material alert/weather/opening issue, if any.
-💳 User-only fare, only if verified.
-🔗 Google · local planner · another truthful supported link
-
-⚡ Faster: ...
-😌 Fewer transfers: ...
-Checked: 07:55 local time
-```
-
-Use the user's language and only include useful lines. Do not dump provider-by-provider research, raw JSON, or decorative emojis.
-
-## Final Integrity Gate
+## Final Integrity Check
 
 Before answering, verify:
 
-- all time blocks, stops, dwell times, timezones, and arrive/depart semantics survived;
-- service runs on that date and selected-line alerts were rechecked;
-- ETA has range, buffer, confidence, and source-check time;
-- weather/opening/fare claims are current and sourced or omitted;
-- each link encodes only what the text promises;
-- missing credentials/coverage are reported as unavailable, never simulated;
-- sensitive locations were minimized and not persisted;
-- final output follows the compact contract.
+- all time blocks, stops, dwell times, and arrive/depart semantics were preserved;
+- the selected service runs on that date and current alerts were checked;
+- ETA has a range, buffer, confidence, and source timestamp;
+- opening/weather/fare claims are sourced or omitted;
+- every link’s encoded capabilities match what the text promises;
+- inaccessible providers are omitted rather than presented as failures of the journey;
+- the answer follows the compact format in [intake-and-output.md](references/intake-and-output.md).
 
-When evidence is insufficient, state exactly what remains unknown and when/how to recheck. Honest uncertainty is better than false precision.
+If current evidence is insufficient, say exactly what is unknown and give a recheck action. Correct uncertainty is better than false precision.

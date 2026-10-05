@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "release_date": "2026-10-05",
+  "slug": "map-skill",
+  "skills": [
+    "plan-smart-routes"
+  ],
+  "provider_sets_equal": true,
+  "source_counts": {
+    "plan-smart-routes": {
+      "common": 10,
+      "GPT": 10,
+      "Claude": 10
+    }
+  },
+  "account_installation_tested": false,
+  "files": {
+    "downloads/ChatGPT.zip": "ae5607ce126cc2786423d3c5f1849dfd47c3e17ded0042fe188e4172af7c3b92",
+    "downloads/Claude.zip": "0ba08d2036ec332257757b6d52f23ce7e788ef06ff5fe99d207c82caa4c988db",
+    "packages/chatgpt/plan-smart-routes.zip": "128ac15c34b2960b6a49413d2aa891e46dfbeb70fdc5dd19f921c5fe3eb1d999",
+    "packages/claude/plan-smart-routes.zip": "49d1719bea73e8aaab0bd262f8e688fca9b77a7e577ac004e731f1f94fd2c48a",
+    "packages/codex/plan-smart-routes.zip": "f7de636d659860f5646d41fcfe3a79d4d49f4391868415b37e78286b8e3a45bd",
+    "packages/common/plan-smart-routes.zip": "f7de636d659860f5646d41fcfe3a79d4d49f4391868415b37e78286b8e3a45bd"
+  }
+}

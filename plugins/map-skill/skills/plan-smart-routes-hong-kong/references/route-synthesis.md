@@ -86,7 +86,7 @@ The helper maps available metrics within the candidate set to 0–1 loss and com
 score = 100 × (1 − weighted_loss / available_weight)
 ```
 
-Duration is a minimum evidence gate. Missing duration rejects a candidate. Other missing metrics are never invented: the scorer keeps them in `missing_metrics`, applies a conservative loss of `0.65` for profile-critical evidence and `0.25` for optional evidence, and reports `evidence_completeness` / `evidence_confidence` separately from the decision score. Higher score is better, but compare evidence confidence before treating a small score difference as meaningful. These are decision heuristics, not a transport standard.
+Missing soft metrics are removed and the remaining weights renormalized. Higher score is better. These are decision heuristics, not a transport standard.
 
 | Metric | Balanced | Urgent | Comfortable | Leisure | Rail-first |
 |---|---:|---:|---:|---:|---:|

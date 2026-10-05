@@ -1,3 +1,32 @@
+<!-- CURRENT-SKILL-PUBLICATION -->
+![Route Planning Skills](assets/collection-hero.svg)
+
+# Route Planning Skills
+
+Current multimodal route evidence and city-aware journeys. This **1 workflow** help the assistant select tools, check evidence and produce reviewable results. They do not change model weights or guarantee better decisions.
+
+[![Download ChatGPT](https://img.shields.io/badge/ChatGPT-Download_ZIP-10a37f?style=for-the-badge)](https://github.com/yigityildiz0/map-skill/raw/refs/heads/main/downloads/ChatGPT.zip) [![Download Claude](https://img.shields.io/badge/Claude-Download_ZIP-d97757?style=for-the-badge)](https://github.com/yigityildiz0/map-skill/raw/refs/heads/main/downloads/Claude.zip)
+
+**ChatGPT:** the button downloads a plugin with all listed skills and supporting files. Use the personal-plugin/skill import supported by your account. A single-skill ChatGPT button downloads a one-skill plugin. **Claude:** unpack the collection ZIP, then upload its individual skill ZIPs; the outer collection is not a single Claude skill. Local Codex/Claude Code files and cloud-account installation are separate.
+
+Use natural English or Turkish requests. A slash-prefixed word typed in chat does not register a host command. Explicit local skill invocation uses the canonical skill name; available tools, network access and credentials remain host-dependent.
+
+## Included skills
+
+| Skill | What it solves / example request | ChatGPT | Claude |
+|---|---|---|---|
+| [`plan-smart-routes`](skills/common/plan-smart-routes/SKILL.md) | Compare walking and transit options using current route evidence | [↓ ZIP](packages/chatgpt/plan-smart-routes.zip) | [↓ ZIP](packages/claude/plan-smart-routes.zip) |
+
+## Installation and technical boundaries
+
+- Full canonical sources: `skills/common/`; provider packages: `packages/chatgpt/`, `packages/claude/`, `packages/codex/`.
+- Every Claude skill has at most 200 files and a description of at most 200 characters. ZIPs include all files of the selected provider source.
+- External services (Gemini, Parallel, Context7), local CLIs and subscriptions are not provided by these ZIPs. Report missing tools rather than simulating access.
+- Validation checks package integrity, paths, descriptions, source/package parity and hashes. It is not a live account-installation test or a clinical/financial effectiveness claim.
+- See [checksums](downloads/SHA256SUMS.txt), [provenance](PUBLICATION.md), and [third-party notices](THIRD_PARTY_NOTICES.md). Existing license and copyright files retain their scope; there is no blanket license grant over third-party content.
+
+<!-- END-CURRENT-SKILL-PUBLICATION -->
+
 <p align="center">
   <img src="docs/assets/map-skill-hero.png" alt="A global multimodal transit network with Istanbul highlighted" width="100%">
 </p>

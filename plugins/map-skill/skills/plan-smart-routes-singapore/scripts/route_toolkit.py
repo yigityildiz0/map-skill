@@ -620,18 +620,6 @@ PROFILE_WEIGHTS: dict[str, dict[str, float]] = {
     },
 }
 
-PROFILE_CRITICAL_METRICS: dict[str, set[str]] = {
-    "balanced": {"duration", "reliability_loss", "transfers", "walk"},
-    "urgent": {"duration", "reliability_loss", "transfers"},
-    "comfortable": {"duration", "reliability_loss", "transfers", "walk", "comfort_loss"},
-    "leisure": {"duration", "reliability_loss", "scenic_loss"},
-    "rail-first": {"duration", "reliability_loss", "transfers", "bus_share"},
-    "low-transfer": {"duration", "reliability_loss", "transfers", "walk"},
-}
-
-MISSING_CRITICAL_LOSS = 0.65
-MISSING_OPTIONAL_LOSS = 0.25
-
 
 def numeric(value: Any) -> float | None:
     return float(value) if isinstance(value, (int, float)) and math.isfinite(float(value)) else None
@@ -684,8 +672,6 @@ def score_routes(args: argparse.Namespace) -> dict[str, Any]:
     rejected: list[dict[str, Any]] = []
     for route in candidates:
         failures = hard_failure(route)
-        if numeric(route.get("planning_upper_min")) is None and numeric(route.get("duration_min")) is None:
-            failures.append("missing_duration")
         if failures:
             rejected.append(
                 {
@@ -716,48 +702,32 @@ def score_routes(args: argparse.Namespace) -> dict[str, Any]:
         components: dict[str, float] = {}
         available_weight = 0.0
         weighted_loss = 0.0
-        missing_evidence_loss = 0.0
-        total_weight = sum(PROFILE_WEIGHTS[profile].values())
         for metric, weight in PROFILE_WEIGHTS[profile].items():
             value = metrics.get(metric)
-            if value is None:
-                unknown_loss = (
-                    MISSING_CRITICAL_LOSS
-                    if metric in PROFILE_CRITICAL_METRICS[profile]
-                    else MISSING_OPTIONAL_LOSS
-                )
-                components[metric] = round(unknown_loss, 4)
-                weighted_loss += weight * unknown_loss
-                missing_evidence_loss += weight * unknown_loss
+            if value is None or metric not in extrema:
                 continue
             low, high = extrema[metric]
             normalized = 0.0 if high == low else (float(value) - low) / (high - low)
             components[metric] = round(normalized, 4)
             weighted_loss += weight * normalized
             available_weight += weight
-        performance_score = 100.0 * (1 - weighted_loss / total_weight)
+        score = 100.0 * (1 - weighted_loss / available_weight) if available_weight else 50.0
+        # Missing data is uncertainty, not evidence of a low-cost/reliable route.
+        total_weight = sum(PROFILE_WEIGHTS[profile].values())
+        completeness = available_weight / total_weight if total_weight else 0.0
+        missing_penalty = 100.0 * (1 - completeness)
+        score -= missing_penalty
         source_confidence = numeric(route.get("source_confidence"))
-        bounded_source_confidence = None
         if source_confidence is not None:
-            bounded_source_confidence = max(0.0, min(1.0, source_confidence))
-            performance_score += 2.0 * (bounded_source_confidence - 0.5)
-        evidence_completeness = available_weight / total_weight
-        evidence_confidence = (
-            evidence_completeness
-            if bounded_source_confidence is None
-            else 0.7 * evidence_completeness + 0.3 * bounded_source_confidence
-        )
-        decision_score = round(max(0.0, min(100.0, performance_score)), 2)
+            score += 2.0 * (max(0.0, min(1.0, source_confidence)) - 0.5)
         ranked.append(
             {
                 **route,
-                "score": decision_score,
-                "decision_score": decision_score,
+                "score": round(max(0.0, min(100.0, score)), 2),
                 "score_profile": profile,
+                "evidence_completeness": round(completeness, 4),
+                "missing_evidence_penalty": round(missing_penalty, 2),
                 "score_components_loss": components,
-                "evidence_completeness": round(evidence_completeness, 4),
-                "evidence_confidence": round(evidence_confidence, 4),
-                "missing_evidence_penalty": round(missing_evidence_loss * 100, 2),
                 "missing_metrics": sorted(
                     metric for metric in PROFILE_WEIGHTS[profile] if metrics.get(metric) is None
                 ),
@@ -769,7 +739,7 @@ def score_routes(args: argparse.Namespace) -> dict[str, Any]:
         "profile": profile,
         "ranked": ranked,
         "rejected": rejected,
-        "method_note": "Hard constraints are applied first. Missing duration is rejected; other missing evidence receives a documented profile-weighted conservative loss and remains listed separately from decision score.",
+        "method_note": "Hard constraints are applied first; observed metrics are normalized and missing evidence receives an explicit uncertainty penalty. Missing evidence is never invented.",
     }
 
 

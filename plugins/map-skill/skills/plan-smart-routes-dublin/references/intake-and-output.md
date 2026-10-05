@@ -86,21 +86,19 @@ Perform deep analysis internally, but normally return:
 
 Avoid provider-by-provider research dumps, repeated caveats, raw JSON, and alternatives that differ only by one or two minutes.
 
-## Default answer
-
-Match the user's language. The compact structure below is language-independent; translate labels naturally and preserve provider/line names.
+## Default Turkish answer
 
 ```text
-✅ Recommended — leave 08:05
-Rail A → transfer → Rail B → 8 min walk | 42–55 min | 1 transfer
-🎯 Arrival: 08:47–09:00 | 10 min buffer | Confidence: Medium
-⚠️ One material line/traffic/weather/opening warning, if any.
-💳 User only: verified pass use or pay-as-you-go total, if relevant.
-🔗 Google · official local planner · another truthful supported link
+✅ Önerilen — 08:05’te çık
+M2 → aktarma → M6 → 8 dk yürü | 42–55 dk | 1 aktarma
+🎯 Tahmini varış: 08:47–09:00 | 10 dk güven payı | Güven: Orta
+⚠️ M7’de kısmi işletme var; seçilen rota M7 kullanmıyor. 09:00 civarı yağmur olası.
+💳 Sen: 2 abonman kullanımı veya yaklaşık … TL (tarife 07:55’te kontrol edildi)
+🔗 Google · Yandex · Moovit
 
-⚡ Faster: …
-😌 Fewer transfers: …
-Sources checked: 07:55, trip-local timezone
+⚡ Daha hızlı: …
+😌 Daha az aktarma: …
+Kaynak kontrolü: 07:55, Europe/Istanbul
 ```
 
 Whenever the answer contains a current ETA, alert, weather, opening, fare, or timetable claim, include the actual source-check time. Do not label an old schedule page as a live check.

@@ -101,3 +101,4 @@ Apple’s current public-transport availability list does not list Turkey. Trans
 7. Test or inspect the final opened link where tools allow. Otherwise state that availability must be checked.
 
 Use `python scripts/route_toolkit.py links ...` to encode and disclose limitations consistently.
+

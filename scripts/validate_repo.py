@@ -137,7 +137,7 @@ def validate_repo_markdown_links() -> None:
 def validate_skills() -> None:
     names: set[str] = set()
     for skill_dir in sorted((ROOT / "skills").iterdir()):
-        if not skill_dir.is_dir():
+        if not skill_dir.is_dir() or not (skill_dir / "SKILL.md").is_file():
             continue
         fields = parse_frontmatter(skill_dir / "SKILL.md")
         require(fields["name"] not in names, f"duplicate skill name: {fields['name']}")
