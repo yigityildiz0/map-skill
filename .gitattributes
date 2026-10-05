@@ -3,3 +3,9 @@
 *.bat text eol=crlf
 *.png binary
 *.zip binary
+
+# CURRENT PROVIDER PAYLOAD BYTES
+# Packages and checked-out provider sources must have identical bytes on every OS.
+skills/common/plan-smart-routes/** -text
+skills/codex/plan-smart-routes/** -text
+skills/claude/plan-smart-routes/** -text
