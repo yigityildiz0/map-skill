@@ -1,0 +1,22 @@
+{
+  "title": "Smart Route Planning",
+  "summary": "Source-aware route planning with public transport, walking, scheduling and explicit live-data limits.",
+  "summary_tr": "Toplu taşıma, yürüyüş, zamanlama ve açık canlı veri sınırlarıyla kaynak temelli rota planlama.",
+  "skills": [
+    "plan-smart-routes"
+  ],
+  "topics": [
+    "agent-skills",
+    "route-planning",
+    "public-transport",
+    "maps"
+  ],
+  "migration": "Install plan-smart-routes instead of the former map-skill entry point. Provider capabilities are checked per request; map links are not proof of a live route.",
+  "migration_tr": "Eski map-skill yerine plan-smart-routes kurulur. Sağlayıcı yetenekleri her istekte doğrulanır; harita bağlantısı canlı rota kanıtı değildir.",
+  "legacy_routes": {
+    "map-skill": "plan-smart-routes"
+  },
+  "repository": "map-skill",
+  "base_commit": "3479d7d8342663d5182cd8cfeb5e1b9c258cd65b",
+  "canonical_repository": "universal-ai-skill-library"
+}

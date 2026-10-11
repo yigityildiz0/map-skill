@@ -1,0 +1,108 @@
+{
+  "edition": "2026.10.11",
+  "files": [
+    {
+      "path": "plan-smart-routes/assets/icon.svg",
+      "source_sha256": "0cdb7990dea3ad89ead04743eeac2dc58c119fb0b8b4a01499a21237f155bc1a",
+      "published_sha256": "0cdb7990dea3ad89ead04743eeac2dc58c119fb0b8b4a01499a21237f155bc1a",
+      "bytes": 843,
+      "legal_notice": false,
+      "modified": false
+    },
+    {
+      "path": "plan-smart-routes/references/intake-and-output.md",
+      "source_sha256": "920af68293bc271baca9ce8120f04602ebdcd6f8fd14b175fd8d3149549b616a",
+      "published_sha256": "920af68293bc271baca9ce8120f04602ebdcd6f8fd14b175fd8d3149549b616a",
+      "bytes": 7290,
+      "legal_notice": false,
+      "modified": false
+    },
+    {
+      "path": "plan-smart-routes/references/istanbul-sources.md",
+      "source_sha256": "8a6072c58765aca21bab536a67a9228f44add8ed6917d4589f49b1c1a48a9391",
+      "published_sha256": "8a6072c58765aca21bab536a67a9228f44add8ed6917d4589f49b1c1a48a9391",
+      "bytes": 7880,
+      "legal_notice": false,
+      "modified": false
+    },
+    {
+      "path": "plan-smart-routes/references/open-data-stack.md",
+      "source_sha256": "01ef9af8dcb874dd0cc59dfd020cab1834766ad5cde4476e49561185ef466126",
+      "published_sha256": "01ef9af8dcb874dd0cc59dfd020cab1834766ad5cde4476e49561185ef466126",
+      "bytes": 9377,
+      "legal_notice": false,
+      "modified": false
+    },
+    {
+      "path": "plan-smart-routes/references/provider-capabilities.md",
+      "source_sha256": "7851fa2db58cd74496a3b51ad66a165fb8f74ad183259d5689ce36128f1c285e",
+      "published_sha256": "7851fa2db58cd74496a3b51ad66a165fb8f74ad183259d5689ce36128f1c285e",
+      "bytes": 8204,
+      "legal_notice": false,
+      "modified": false
+    },
+    {
+      "path": "plan-smart-routes/references/route-synthesis.md",
+      "source_sha256": "5a7657ae94fcb3deb216e457ea3020c8d9ed0a92d7efbfc6ef94285d620803c2",
+      "published_sha256": "5a7657ae94fcb3deb216e457ea3020c8d9ed0a92d7efbfc6ef94285d620803c2",
+      "bytes": 9956,
+      "legal_notice": false,
+      "modified": false
+    },
+    {
+      "path": "plan-smart-routes/scripts/istanbul_live.py",
+      "source_sha256": "bb5e9593b1a68f77bebdcd90c9f4dfd89b90075f5d3f3e8ca05cd6c931e75a5d",
+      "published_sha256": "bb5e9593b1a68f77bebdcd90c9f4dfd89b90075f5d3f3e8ca05cd6c931e75a5d",
+      "bytes": 15729,
+      "legal_notice": false,
+      "modified": false
+    },
+    {
+      "path": "plan-smart-routes/scripts/map_link_resolver.py",
+      "source_sha256": "7904e65b26d725a088dd0c27467e423c56b011f0f0df50679a22b2b1ae667a55",
+      "published_sha256": "7904e65b26d725a088dd0c27467e423c56b011f0f0df50679a22b2b1ae667a55",
+      "bytes": 11617,
+      "legal_notice": false,
+      "modified": false
+    },
+    {
+      "path": "plan-smart-routes/scripts/route_toolkit.py",
+      "source_sha256": "fbddfa78b0980c2a6b9c581950f18b0116e7978e07c5de747f77d91118beb0ab",
+      "published_sha256": "fbddfa78b0980c2a6b9c581950f18b0116e7978e07c5de747f77d91118beb0ab",
+      "bytes": 47770,
+      "legal_notice": false,
+      "modified": false
+    },
+    {
+      "path": "plan-smart-routes/SKILL.md",
+      "source_sha256": "7a41201bf758198c1dc7abc242f3bd6d2ba93747509e998b2e7406c15a14b70c",
+      "published_sha256": "cd556ce3c655af6ff4f3ae8bf32be58a7830e665aae4d2e29737c0d6a971dfdd",
+      "bytes": 12235,
+      "legal_notice": false,
+      "modified": true
+    }
+  ],
+  "licenses": [
+    {
+      "skill": "plan-smart-routes",
+      "declared": null,
+      "root_license_files": [],
+      "notice_files": [],
+      "modules_without_local_or_root_notice": [],
+      "status": "root-license-not-specified"
+    }
+  ],
+  "license_gaps": [
+    {
+      "skill": "plan-smart-routes",
+      "reason": "root-license-not-specified",
+      "modules_without_notice": []
+    }
+  ],
+  "adaptations": [
+    {
+      "path": "plan-smart-routes/SKILL.md",
+      "reason": "portable host adaptation / private machine context removal"
+    }
+  ]
+}

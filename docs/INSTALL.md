@@ -1,147 +1,26 @@
-# Installation
+# Installation / Kurulum
 
-Map Skill supports two distribution paths:
+[Library](../README.md) · [Downloads](../DOWNLOADS.md)
 
-1. the all-in-one skills-only plugin, which contains Universal plus all city editions;
-2. a standalone skill ZIP for Universal or one city.
+## English
 
-## Recommended: Git-backed plugin marketplace
+1. Pick a maintained skill and read its purpose, trigger and dependencies.
+2. Choose the artifact for the environment you actually use:
+   - **Claude Code:** place the complete selected skill directory in the supported personal/project skill directory. Keep resources beside SKILL.md. Extraction does not change user settings.
+   - **Codex:** use the local-folder edition in the supported skills directory; use a plugin bundle only when the host supports its manifest.
+   - **DeepSeek Harness:** select the directory through your configured filesystem skill provider. Verify it appears and loads in the catalog. A file on disk is not proof of invocation.
+   - **Claude web:** unpack the collection and import individual root/support ZIPs through the account’s supported skill flow. The outer collection is not one skill.
+   - **ChatGPT web / GPT Knowledge:** do not assume a ZIP installs executable skills or MCP tools. Knowledge uploads are documents. Use a skill/plugin import only if the actual account offers it; otherwise use instructions as reference and disclose missing capabilities.
+3. Test one example request. Instructions do not supply an API key, browser session, model, GPU, Office runtime or subscription.
+4. Update from the same canonical source; keep one active copy per skill and preserve user edits. Domain collections overlap intentionally.
 
-Add the public GitHub repository as a marketplace source:
+This edition uses existing host tools, open sources and local computation without an automatic extra billed service. Your existing model/host plan still has its own usage costs. Host capabilities and file limits change; verify current documentation instead of treating these files as account entitlement.
 
-```bash
-codex plugin marketplace add yigityildiz0/map-skill
-```
+## Türkçe
 
-Then:
-
-1. restart the ChatGPT desktop app;
-2. open **Plugins**;
-3. choose the **Map Skill** source;
-4. install **Map Skill**;
-5. start a new chat for a clean activation test.
-
-Inspect configured sources with:
-
-```bash
-codex plugin marketplace list
-```
-
-Refresh a later release with:
-
-```bash
-codex plugin marketplace upgrade map-skill
-```
-
-This follows OpenAI's current [plugin marketplace documentation](https://developers.openai.com/plugins/build/plugins). Local/repo marketplace availability can vary by product surface or workspace policy.
-
-## Standalone Universal skill
-
-### Windows PowerShell
-
-```powershell
-$mapZip = Join-Path $env:TEMP 'map-skill-universal.zip'
-Invoke-WebRequest 'https://github.com/yigityildiz0/map-skill/releases/latest/download/map-skill-universal.zip' -OutFile $mapZip
-New-Item -ItemType Directory -Force (Join-Path $env:USERPROFILE '.agents\skills') | Out-Null
-Expand-Archive $mapZip (Join-Path $env:USERPROFILE '.agents\skills') -Force
-```
-
-Expected file:
-
-```text
-%USERPROFILE%\.agents\skills\plan-smart-routes\SKILL.md
-```
-
-### macOS / Linux
-
-```bash
-curl -L -o /tmp/map-skill-universal.zip \
-  https://github.com/yigityildiz0/map-skill/releases/latest/download/map-skill-universal.zip
-mkdir -p ~/.agents/skills
-unzip -o /tmp/map-skill-universal.zip -d ~/.agents/skills
-```
-
-Expected file:
-
-```text
-~/.agents/skills/plan-smart-routes/SKILL.md
-```
-
-Codex detects skill changes automatically; restart if it does not appear. OpenAI's current [skill guide](https://learn.chatgpt.com/docs/build-skills) documents the user skill location and ChatGPT/Codex activation syntax.
-
-## About the direct plugin ZIP
-
-`map-skill-plugin.zip` contains the plugin manifest and all 17 skills (Universal + 16 city editions). It is provided for offline inspection, advanced local marketplace setups, and supported skills-only plugin upload/import surfaces. Product/workspace import controls can vary.
-
-Prefer the Git-backed marketplace command at the top of this guide. Do not overwrite an existing personal `marketplace.json` merely to use the ZIP; merge or generate a marketplace entry with the official plugin tooling.
-
-## Standalone İstanbul skill
-
-Use the same steps with this file:
-
-```text
-https://github.com/yigityildiz0/map-skill/releases/latest/download/map-skill-istanbul.zip
-```
-
-It installs as `plan-smart-routes-istanbul`, so it can coexist with Universal.
-
-## Other city editions
-
-Each release ZIP contains exactly one self-contained skill folder. For example:
-
-```text
-map-skill-london.zip       → plan-smart-routes-london/
-map-skill-hong-kong.zip    → plan-smart-routes-hong-kong/
-map-skill-toronto.zip      → plan-smart-routes-toronto/
-```
-
-Install only the editions you use. Universal already carries the complete city-source registry; city editions primarily improve triggering and force the matching profile to load.
-
-## Verify the download
-
-Download `SHA256SUMS.txt`, then compare:
-
-Windows PowerShell:
-
-```powershell
-Get-FileHash .\map-skill-universal.zip -Algorithm SHA256
-```
-
-macOS / Linux:
-
-```bash
-sha256sum map-skill-universal.zip
-```
-
-## Activation test
-
-Implicit:
-
-```text
-I need to get from King's Cross to Heathrow tomorrow and arrive by 08:30.
-Compare the reliable public-transport options and give me valid map links.
-```
-
-Explicit:
-
-```text
-$plan-smart-routes Compare the reliable ways to reach Heathrow by 08:30 tomorrow.
-```
-
-The skill should ask for any missing origin/date/time before calculating. That is expected behavior.
-
-## Remove
-
-For a standalone user skill, remove only the exact installed folder:
-
-```text
-~/.agents/skills/plan-smart-routes
-```
-
-For a marketplace source:
-
-```bash
-codex plugin marketplace remove map-skill
-```
-
-Review the resolved target before deleting a local folder.
+1. Güncel katalogdan skill seç; amaç, tetikleme ve bağımlılıkları oku.
+2. Claude Code/Codex için tam klasörü desteklenen yerel skill dizinine koy. Harness’ta mevcut dosya sistemi sağlayıcısıyla seç ve katalogdan yüklenmesini doğrula.
+3. Claude web dış ZIPini aç; kök/destek parça ZIPlerini hesabın desteklediği akışla ayrı yükle. Dış ZIP tek skill değildir.
+4. ChatGPT/GPT Knowledge’a ZIP yüklemek çalıştırılabilir skill veya MCP kurmaz. Yalnız hesabın gerçekten sunduğu mekanizmayı kullan; yoksa talimatlar bir referanstır.
+5. Bir örnek istekle dene. Dosyanın bulunması, aracın çalışması veya klinik/finansal etkinlik kanıtı değildir. API, GPU, Office veya abonelik paketle gelmez.
+6. Aynı kaynaktan güncelle; çift etkin kopya oluşturma. Mevcut model/host kullanımının kendi maliyeti ayrıdır; ek ücretli servis otomatik seçilmez.

@@ -1,0 +1,96 @@
+{
+  "plan-smart-routes": {
+    "source_skill": "plan-smart-routes",
+    "split": false,
+    "parts": [
+      "plan-smart-routes"
+    ],
+    "modules": [],
+    "files": {
+      "PORTABLE.md": {
+        "sha256": "1ef57269f64ebf62c91d70aba00d1d1aabfbfc5163019a96fed3dc824826f0c9",
+        "locations": [
+          "plan-smart-routes/PORTABLE.md"
+        ]
+      },
+      "SKILL.md": {
+        "sha256": "c22956f2f99eee065d3ac340fbad4b3a56f5c99ff2c362abd75ad658ecb1d109",
+        "locations": [
+          "plan-smart-routes/SKILL.md"
+        ]
+      },
+      "assets/icon.svg": {
+        "sha256": "0cdb7990dea3ad89ead04743eeac2dc58c119fb0b8b4a01499a21237f155bc1a",
+        "locations": [
+          "plan-smart-routes/assets/icon.svg"
+        ]
+      },
+      "references/intake-and-output.md": {
+        "sha256": "920af68293bc271baca9ce8120f04602ebdcd6f8fd14b175fd8d3149549b616a",
+        "locations": [
+          "plan-smart-routes/references/intake-and-output.md"
+        ]
+      },
+      "references/istanbul-sources.md": {
+        "sha256": "8a6072c58765aca21bab536a67a9228f44add8ed6917d4589f49b1c1a48a9391",
+        "locations": [
+          "plan-smart-routes/references/istanbul-sources.md"
+        ]
+      },
+      "references/open-data-stack.md": {
+        "sha256": "01ef9af8dcb874dd0cc59dfd020cab1834766ad5cde4476e49561185ef466126",
+        "locations": [
+          "plan-smart-routes/references/open-data-stack.md"
+        ]
+      },
+      "references/provider-capabilities.md": {
+        "sha256": "7851fa2db58cd74496a3b51ad66a165fb8f74ad183259d5689ce36128f1c285e",
+        "locations": [
+          "plan-smart-routes/references/provider-capabilities.md"
+        ]
+      },
+      "references/route-synthesis.md": {
+        "sha256": "5a7657ae94fcb3deb216e457ea3020c8d9ed0a92d7efbfc6ef94285d620803c2",
+        "locations": [
+          "plan-smart-routes/references/route-synthesis.md"
+        ]
+      },
+      "scripts/istanbul_live.py": {
+        "sha256": "bb5e9593b1a68f77bebdcd90c9f4dfd89b90075f5d3f3e8ca05cd6c931e75a5d",
+        "locations": [
+          "plan-smart-routes/scripts/istanbul_live.py"
+        ]
+      },
+      "scripts/map_link_resolver.py": {
+        "sha256": "7904e65b26d725a088dd0c27467e423c56b011f0f0df50679a22b2b1ae667a55",
+        "locations": [
+          "plan-smart-routes/scripts/map_link_resolver.py"
+        ]
+      },
+      "scripts/route_toolkit.py": {
+        "sha256": "fbddfa78b0980c2a6b9c581950f18b0116e7978e07c5de747f77d91118beb0ab",
+        "locations": [
+          "plan-smart-routes/scripts/route_toolkit.py"
+        ]
+      },
+      "yigit/host-manifest.json": {
+        "sha256": "dfb5bd6d79b675ef75222959878a8131135050f5d3b96844ed6718ea66141abf",
+        "locations": [
+          "plan-smart-routes/yigit/host-manifest.json"
+        ]
+      },
+      "yigit/host-runtime.md": {
+        "sha256": "7340e97e88e7f03880a60b1d98aece1c9d0ac8ea8b7dcaebe04889699090f6ec",
+        "locations": [
+          "plan-smart-routes/yigit/host-runtime.md"
+        ]
+      },
+      "yigit/source-SKILL.md": {
+        "sha256": "cd556ce3c655af6ff4f3ae8bf32be58a7830e665aae4d2e29737c0d6a971dfdd",
+        "locations": [
+          "plan-smart-routes/yigit/source-SKILL.md"
+        ]
+      }
+    }
+  }
+}
