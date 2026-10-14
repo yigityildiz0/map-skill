@@ -1,5 +1,5 @@
 {
-  "edition": "2026.10.14.2",
+  "edition": "2026.10.14.3",
   "repository": "map-skill",
   "canonical": "universal-ai-skill-library",
   "skills": [
@@ -9,13 +9,13 @@
     "plan-smart-routes": 1
   },
   "artifact_sha256": {
-    "downloads/ChatGPT.zip": "90bbea18e2b3d36a53816171e2a9191a55755046942073f86251d96f943436e7",
+    "downloads/ChatGPT.zip": "1ff992745d69b815df6d2c6feffb3fd6c9c2ca63c96717cef38e3814a904012a",
     "downloads/Claude.zip": "762697417a0b39276d42febc87c8982757355b63748c32006178423a68883f6c",
     "downloads/Codex.zip": "d6849e8472b909b3136aa66a24ea820efb1c5ab00c33dcfdcc0bedacf3dbe622",
     "downloads/Gemini.zip": "3076a373c56e76f4a5ebf687f36f164af32249da1545525f1d84f233dc821411",
     "downloads/portable-skills.zip": "f21c5af9063aaffad8c300010d1703c313c3b3d49022ef2b837b1ee5f74be5c6",
     "packages/portable/plan-smart-routes.zip": "f21c5af9063aaffad8c300010d1703c313c3b3d49022ef2b837b1ee5f74be5c6",
-    "packages/chatgpt/plan-smart-routes.zip": "355fe11b6f8326df93634abb192bd71edf5656a3d956e8c87badc569e405da11",
+    "packages/chatgpt/plan-smart-routes.zip": "a124067592c2cb91f3d319104aa31f2ac776708d603b298fb1b149be9bd5782a",
     "packages/claude/plan-smart-routes.zip": "6b9145d2e9decc88bdb54b5284486b5abd95b77895b7ba311c87d98d29c7b12b",
     "packages/gemini/plan-smart-routes.zip": "d8a7a0f6cef0e436deb53f7d88f791fd829ab208734a8c40f79c11939a75dc72"
   },

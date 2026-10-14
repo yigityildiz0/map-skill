@@ -17,6 +17,6 @@
     "map-skill": "plan-smart-routes"
   },
   "repository": "map-skill",
-  "base_commit": "56fb8821067d2ab0139bf6b53d5f1efbddeb9082",
+  "base_commit": "0c8949f553bdf9224f813931a8498ef275ac6e9a",
   "canonical_repository": "universal-ai-skill-library"
 }
