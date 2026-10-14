@@ -6,4 +6,4 @@ Use README and DOWNLOADS for the current edition. Old tags/downloads may contain
 
 Türkçe: Güncel kapsam current-release.json ile tanımlanır. Eski katalog ve kaynaklar izlenebilirlik için korunur; eski sayı ve test iddiaları güncel kapsam değildir. Güncel README/indirmeleri kullan. Eski sürümler farklı sağlayıcı/host varsayımları içerebilir. Gemini Deep Research güncel sürümde yoktur; eski `slides` artık `html-slides` (yalnız tarayıcı sunumu), PowerPoint işleri `presentation-studio`'da.
 
-[Previous README at the preserved base commit](https://github.com/yigityildiz0/map-skill/blob/63cbb9b8c17e76394e4f979418f4d12cdce76ca7/README.md).
+[Previous README at the preserved base commit](https://github.com/yigityildiz0/map-skill/blob/56fb8821067d2ab0139bf6b53d5f1efbddeb9082/README.md).
